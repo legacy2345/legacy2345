@@ -1,0 +1,16 @@
+language: cpp
+sudo: required
+dist: trusty
+compiler:
+- clang
+os:
+- linux
+branches:
+  only:
+  - master
+notifications:
+  irc:
+    channels:
+    - chat.freeode.net#legacy2345
+    template:
+    - "%{repository}/%{branch} (%{commit} - %{author}): %{build_url}: %{message}"
