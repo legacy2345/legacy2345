@@ -8,6 +8,8 @@ os:
 branches:
   only:
   - master
+before_script:
+  - ./autogen.sh
 notifications:
   irc:
     channels:
