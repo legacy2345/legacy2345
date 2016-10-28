@@ -29,3 +29,4 @@ EXTRA_DIST = \
 	NEWS \
 	README.md
 
+test: check
