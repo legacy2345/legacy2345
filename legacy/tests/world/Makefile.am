@@ -1,8 +1,8 @@
 #
-# @file Makefile.am
-# @brief top-level automake recipe for the Legacy project
+# @file legacy/tests/world/Makefile.am
+# @brief automake recipe for Legacy world submodule tests
 #
-# Copyright 2011-2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
+# Copyright 2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,14 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-AM_MAKEFLAGS = --no-print-directory
+check_PROGRAMS = test_world
 
-SUBDIRS = $(subdirs) legacy
+test_world_SOURCES = \
+  test_cell.cpp \
+  test_world.cpp 
 
-EXTRA_DIST = \
-	AUTHORS \
-	COPYING \
-	INSTALL \
-	NEWS \
-	README.md
+test_world_CPPFLAGS = \
+  -I$(top_srcdir) \
+  -I$(top_srcdir)/legacy/tests/3rd_party
 
+TESTS = $(check_PROGRAMS)

@@ -34,6 +34,7 @@ AC_CONFIG_HEADER([legacy_config.h])
 # Checks for required tools
 AC_PROG_CXX
 AC_LANG([C++])
+AM_PROG_AR
 LT_PREREQ([2.4.2])
 LT_INIT
 
@@ -68,4 +69,8 @@ AC_DEFINE([LEGACY_UNUSED],[__attribute__((unused))],[symbol is unused])
 AC_SUBST(AM_CXXFLAGS, "-Wall -Wextra -pedantic $AM_CXXFLAGS")
 
 AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([legacy/Makefile])
+AC_CONFIG_FILES([legacy/world/Makefile])
+AC_CONFIG_FILES([legacy/tests/Makefile])
+AC_CONFIG_FILES([legacy/tests/world/Makefile])
 AC_OUTPUT
