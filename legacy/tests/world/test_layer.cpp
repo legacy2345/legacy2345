@@ -1,6 +1,6 @@
 /**
- * @file legacy/tests/world/cell.h
- * @brief Tests for the Legacy world cell unit.
+ * @file legacy/tests/world/layer.h
+ * @brief Tests for the Legacy world layer unit.
  */
 
 /*
@@ -20,13 +20,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "catch.hpp"
-#include "legacy/world/cell.h"
+#include "legacy/world/layer.h"
 
 
-SCENARIO("basic Cell interface")
+SCENARIO("basic Layer interface")
 {
-  GIVEN("A Cell")
+  GIVEN("A Layer")
   {
-    Legacy::World::Cell cell;
+    Legacy::World::Layer layer;
   }
 }

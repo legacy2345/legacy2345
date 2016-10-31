@@ -1,6 +1,6 @@
 /**
- * @file legacy/tests/world/cell.h
- * @brief Tests for the Legacy world cell unit.
+ * @file legacy/world/map.h
+ * @brief Public interface for the Legacy world Map class.
  */
 
 /*
@@ -19,14 +19,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "catch.hpp"
-#include "legacy/world/cell.h"
+#ifndef LEGACY_WORLD_MAP_H_
+#define LEGACY_WORLD_MAP_H_
 
+namespace Legacy {
+namespace World {
 
-SCENARIO("basic Cell interface")
+/**
+ * The local part of the world
+ */
+class Map
 {
-  GIVEN("A Cell")
-  {
-    Legacy::World::Cell cell;
-  }
-}
+};
+
+} // namespace World
+} // namespace Legacy
+
+#endif // LEGACY_WORLD_MAP_H_

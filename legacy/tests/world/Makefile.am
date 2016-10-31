@@ -22,6 +22,9 @@ check_PROGRAMS = test_world
 
 test_world_SOURCES = \
   test_cell.cpp \
+  test_cellcache.cpp \
+  test_layer.cpp \
+  test_map.cpp \
   test_world.cpp 
 
 test_world_CPPFLAGS = \

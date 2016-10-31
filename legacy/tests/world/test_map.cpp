@@ -1,6 +1,6 @@
 /**
- * @file legacy/tests/world/cell.h
- * @brief Tests for the Legacy world cell unit.
+ * @file legacy/tests/world/map.h
+ * @brief Tests for the Legacy world map unit.
  */
 
 /*
@@ -20,13 +20,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "catch.hpp"
-#include "legacy/world/cell.h"
+#include "legacy/world/map.h"
 
 
-SCENARIO("basic Cell interface")
+SCENARIO("basic Map interface")
 {
-  GIVEN("A Cell")
+  GIVEN("A Map")
   {
-    Legacy::World::Cell cell;
+    Legacy::World::Map map;
   }
 }

@@ -1,6 +1,6 @@
 /**
- * @file legacy/tests/world/cell.h
- * @brief Tests for the Legacy world cell unit.
+ * @file legacy/tests/world/cellcache.h
+ * @brief Tests for the Legacy world cell cache unit.
  */
 
 /*
@@ -20,13 +20,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "catch.hpp"
-#include "legacy/world/cell.h"
+#include "legacy/world/cellcache.h"
 
 
-SCENARIO("basic Cell interface")
+SCENARIO("basic Cell Cache interface")
 {
-  GIVEN("A Cell")
+  GIVEN("A CellCache")
   {
-    Legacy::World::Cell cell;
+    Legacy::World::CellCache cell_cache;
   }
 }

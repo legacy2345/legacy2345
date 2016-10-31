@@ -23,5 +23,6 @@ noinst_LTLIBRARIES = liblegacyworld.la
 liblegacyworld_la_SOURCES = \
   cell.h \
   cellcache.h \
-  layer.h
+  layer.h \
+  map.h
 
