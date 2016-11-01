@@ -23,8 +23,8 @@ noinst_LTLIBRARIES = liblegacyworld.la
 liblegacyworld_la_SOURCES = \
   cell.h \
   cellcache.h \
-  layer.h \
   map.h              map.cpp \
+  maplayer.h         maplayer.cpp \
   mapbuilderstatic.h mapbuilderstatic.cpp
 
 liblegacyworld_la_CPPFLAGS = \

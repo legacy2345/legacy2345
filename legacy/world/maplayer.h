@@ -1,6 +1,6 @@
 /**
- * @file legacy/world/layer.h
- * @brief Public interface for the Legacy world Layer class.
+ * @file legacy/world/maplayer.h
+ * @brief Public interface for the Legacy world MapLayer class.
  */
 
 /*
@@ -19,20 +19,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LEGACY_WORLD_LAYER_H_
-#define LEGACY_WORLD_LAYER_H_
+#ifndef LEGACY_WORLD_MAPLAYER_H_
+#define LEGACY_WORLD_MAPLAYER_H_
 
 namespace Legacy {
 namespace World {
 
 /**
- * An ordered collection of Cell references that make up a single world layer.
+ * An ordered collection of Cell references that make up a single map layer.
  */
-class Layer
+class MapLayer
 {
+public:
+  MapLayer(int length, int width);
+
+  /** The east-west extent of the map layer. */
+  int
+  length() const
+  { return length_; }
+
+  /** The north-south extent of the map layer. */
+  int
+  width() const
+  { return width_; }
+
+private:
+  int length_;
+  int width_;
 };
 
 } // namespace World
 } // namespace Legacy
 
-#endif // LEGACY_WORLD_LAYER_H_
+#endif // LEGACY_WORLD_MAPLAYER_H_

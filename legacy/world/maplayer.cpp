@@ -1,6 +1,6 @@
 /**
- * @file legacy/tests/world/fake_mapbuilder.h
- * @brief A test fake map builder.
+ * @file legacy/world/maplayer.cpp
+ * @brief Implementation of the Legacy world MapLayer class.
  */
 
 /*
@@ -19,48 +19,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LEGACY_TESTS_WORLD_FAKE_MAPBUILDER_H_
-#define LEGACY_TESTS_WORLD_FAKE_MAPBUILDER_H_
-
-
-#include "legacy/world/map.h"
 #include "legacy/world/maplayer.h"
 
 
-namespace Legacy {
-namespace Tests {
-namespace World {
+Legacy::World::MapLayer::
+MapLayer(int length, int width)
+: length_(length)
+, width_(width)
+{ }
 
-
-class MapBuilderFake
-: public Legacy::World::MapBuilder
-{
-public:
-  ~MapBuilderFake()
-  {}
-
-  int
-  map_length()
-  { return 10; }
-
-  int
-  map_width()
-  { return 10; }
-
-  int
-  map_height()
-  { return 10; }
-
-  Legacy::World::MapLayerBag
-  layers()
-  {
-    return Legacy::World::MapLayerBag(map_height(),
-                          Legacy::World::MapLayer(map_length(), map_width()));
-  }
-};
-
-
-} // namespace World
-} // namespace Tests
-} // namespace Legacy
-#endif // LEGACY_TESTS_WORLD_FAKE_MAPBUILDER_H_

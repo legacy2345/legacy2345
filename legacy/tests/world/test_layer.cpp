@@ -20,13 +20,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "catch.hpp"
-#include "legacy/world/layer.h"
+#include "legacy/world/maplayer.h"
 
 
-SCENARIO("basic Layer interface")
+SCENARIO("basic interface for the MapLayer class")
 {
-  GIVEN("A Layer")
+  GIVEN("A MapLayer constructed for given dimensions")
   {
-    Legacy::World::Layer layer;
+    static const int given_length = 12;
+    static const int given_width = 12;
+    Legacy::World::MapLayer map_layer(given_length, given_width);
+
+    WHEN("the map layer is first created")
+    {
+      THEN("its size should match the given dimensions")
+      {
+        REQUIRE(map_layer.length() == given_length);
+        REQUIRE(map_layer.width()  == given_width);
+      }
+    }
   }
 }

@@ -26,9 +26,11 @@ Legacy::World::MapBuilder::
 ~MapBuilder()
 { }
 
+
 Legacy::World::Map::
 Map(MapBuilder& builder)
 : length_(builder.map_length())
 , width_(builder.map_width())
 , height_(builder.map_height())
+, layers_(builder.layers())
 { }
