@@ -22,30 +22,39 @@
 #ifndef LEGACY_WORLD_MAPLAYER_H_
 #define LEGACY_WORLD_MAPLAYER_H_
 
+#include <vector>
+
+
 namespace Legacy {
 namespace World {
 
 /**
- * An ordered collection of Cell references that make up a single map layer.
+ * An ordered collection of Cell indexes that make up a single map layer.
  */
 class MapLayer
 {
 public:
-  MapLayer(int length, int width);
+  MapLayer(unsigned length, unsigned width);
 
   /** The east-west extent of the map layer. */
-  int
-  length() const
-  { return length_; }
+  unsigned
+  length() const;
 
   /** The north-south extent of the map layer. */
+  unsigned
+  width() const;
+
   int
-  width() const
-  { return width_; }
+  cell_index_at(unsigned x, unsigned y) const;
 
 private:
-  int length_;
-  int width_;
+  unsigned 
+  cell_offset_of(unsigned x, unsigned y) const;
+
+private:
+  unsigned         length_;
+  unsigned         width_;
+  std::vector<int> cells_;
 };
 
 } // namespace World

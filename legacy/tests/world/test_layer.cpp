@@ -21,6 +21,7 @@
  */
 #include "catch.hpp"
 #include "legacy/world/maplayer.h"
+#include <stdexcept>
 
 
 SCENARIO("basic interface for the MapLayer class")
@@ -28,7 +29,7 @@ SCENARIO("basic interface for the MapLayer class")
   GIVEN("A MapLayer constructed for given dimensions")
   {
     static const int given_length = 12;
-    static const int given_width = 12;
+    static const int given_width  = 12;
     Legacy::World::MapLayer map_layer(given_length, given_width);
 
     WHEN("the map layer is first created")
@@ -37,6 +38,19 @@ SCENARIO("basic interface for the MapLayer class")
       {
         REQUIRE(map_layer.length() == given_length);
         REQUIRE(map_layer.width()  == given_width);
+      }
+      AND_THEN("it should be default-initialized with the empty cell")
+      {
+        REQUIRE(map_layer.cell_index_at(1, 1) == 0);
+      }
+    }
+
+    WHEN("a request cell address is out of bounds")
+    {
+      THEN("an out-of-range exception gets raised")
+      {
+        CHECK_THROWS_AS(map_layer.cell_index_at(given_length+2, 1), std::out_of_range);
+        CHECK_THROWS_AS(map_layer.cell_index_at(1, given_width+2), std::out_of_range);
       }
     }
   }

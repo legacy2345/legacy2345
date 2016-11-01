@@ -20,11 +20,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "legacy/world/maplayer.h"
+#include <stdexcept>
 
 
 Legacy::World::MapLayer::
-MapLayer(int length, int width)
+MapLayer(unsigned length, unsigned width)
 : length_(length)
 , width_(width)
+, cells_(length*width)
 { }
+
+unsigned
+Legacy::World::MapLayer::
+length() const
+{ return length_; }
+
+unsigned
+Legacy::World::MapLayer::
+width() const
+{ return width_; }
+
+
+int Legacy::World::MapLayer::
+cell_index_at(unsigned x, unsigned y) const
+{
+  return cells_[this->cell_offset_of(x, y)];
+}
+
+
+unsigned Legacy::World::MapLayer::
+cell_offset_of(unsigned x, unsigned y) const
+{
+  if (x > length_ || y > width_)
+    throw std::out_of_range("cell index out of range");
+  return y * length_ + x;
+}
 
