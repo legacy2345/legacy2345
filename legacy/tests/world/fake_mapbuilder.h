@@ -1,6 +1,6 @@
 /**
- * @file legacy/world/map.h
- * @brief Public interface for the Legacy world Map class.
+ * @file legacy/tests/world/fake_mapbuilder.h
+ * @brief A test fake map builder.
  */
 
 /*
@@ -19,47 +19,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LEGACY_WORLD_MAP_H_
-#define LEGACY_WORLD_MAP_H_
+#ifndef LEGACY_TESTS_WORLD_FAKE_MAPBUILDER_H_
+#define LEGACY_TESTS_WORLD_FAKE_MAPBUILDER_H_
+
+
+#include "legacy/world/map.h"
 
 namespace Legacy {
+namespace Tests {
 namespace World {
 
-/**
- * An abstract base class implemented by concrete map builders, used to build
- * maps.
- */
-class MapBuilder
+
+class MapBuilderFake
+: public Legacy::World::MapBuilder
 {
 public:
-  virtual ~MapBuilder() = 0;
+  ~MapBuilderFake() {}
 
-  // the map extents
-  virtual int map_length() = 0;
-  virtual int map_width()  = 0;
-  virtual int map_height() = 0;
+  int map_length() { return 10; }
+  int map_width()  { return 10; }
+  int map_height() { return 10; }
 };
 
-
-/**
- * The local (playable) part of the world
- */
-class Map
-{
-public:
-  Map(MapBuilder& builder);
-
-  int length() const { return length_; }
-  int width() const  { return width_;  }
-  int height() const { return height_; }
-
-private:
-  int length_;
-  int width_;
-  int height_;
-};
 
 } // namespace World
+} // namespace Tests
 } // namespace Legacy
-
-#endif // LEGACY_WORLD_MAP_H_
+#endif // LEGACY_TESTS_WORLD_FAKE_MAPBUILDER_H_

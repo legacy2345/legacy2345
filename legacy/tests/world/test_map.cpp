@@ -20,13 +20,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "catch.hpp"
+#include "fake_mapbuilder.h"
 #include "legacy/world/map.h"
+#include "legacy/world/mapbuilderstatic.h"
 
 
-SCENARIO("basic Map interface")
+SCENARIO("basic interface for the MapBuilderStatic class")
 {
-  GIVEN("A Map")
+  GIVEN("A Static MapBuilder")
   {
-    Legacy::World::Map map;
+    Legacy::World::MapBuilderStatic map_builder;
   }
 }
+
+SCENARIO("basic interface for the Map class")
+{
+  GIVEN("A Map built from a fake map builder")
+  {
+    Legacy::Tests::World::MapBuilderFake map_builder;
+    Legacy::World::Map map(map_builder);
+
+    WHEN("the map is first created")
+    {
+      THEN("the map size should match the map builder values")
+      {
+        REQUIRE(map.length() == map_builder.map_length());
+        REQUIRE(map.width()  == map_builder.map_width());
+        REQUIRE(map.height() == map_builder.map_height());
+      }
+    }
+  }
+}
+

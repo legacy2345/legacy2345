@@ -1,6 +1,6 @@
 /**
- * @file legacy/world/map.h
- * @brief Public interface for the Legacy world Map class.
+ * @file legacy/world/mapbuilderstatic.h
+ * @brief A builder of static maps.
  */
 
 /*
@@ -19,47 +19,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef LEGACY_WORLD_MAP_H_
-#define LEGACY_WORLD_MAP_H_
+#ifndef LEGACY_WORLD_MAPBUILDERSTATIC_H_
+#define LEGACY_WORLD_MAPBUILDERSTATIC_H_
+
+#include "legacy/world/map.h"
+
 
 namespace Legacy {
 namespace World {
 
 /**
- * An abstract base class implemented by concrete map builders, used to build
- * maps.
+ * Builds a static map.
  */
-class MapBuilder
+class MapBuilderStatic
 {
 public:
-  virtual ~MapBuilder() = 0;
-
-  // the map extents
-  virtual int map_length() = 0;
-  virtual int map_width()  = 0;
-  virtual int map_height() = 0;
-};
-
-
-/**
- * The local (playable) part of the world
- */
-class Map
-{
-public:
-  Map(MapBuilder& builder);
-
-  int length() const { return length_; }
-  int width() const  { return width_;  }
-  int height() const { return height_; }
-
-private:
-  int length_;
-  int width_;
-  int height_;
+  ~MapBuilderStatic();
 };
 
 } // namespace World
 } // namespace Legacy
 
-#endif // LEGACY_WORLD_MAP_H_
+#endif // LEGACY_WORLD_MAPBUILDERSTATIC_H_

@@ -24,5 +24,8 @@ liblegacyworld_la_SOURCES = \
   cell.h \
   cellcache.h \
   layer.h \
-  map.h
+  map.h              map.cpp \
+  mapbuilderstatic.h mapbuilderstatic.cpp
 
+liblegacyworld_la_CPPFLAGS = \
+  -I${top_srcdir}

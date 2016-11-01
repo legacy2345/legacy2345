@@ -21,6 +21,7 @@
 check_PROGRAMS = test_world
 
 test_world_SOURCES = \
+  fake_mapbuilder.h \
   test_cell.cpp \
   test_cellcache.cpp \
   test_layer.cpp \
@@ -30,5 +31,8 @@ test_world_SOURCES = \
 test_world_CPPFLAGS = \
   -I$(top_srcdir) \
   -I$(top_srcdir)/legacy/tests/3rd_party
+
+test_world_LDADD = \
+  ${top_builddir}/legacy/world/liblegacyworld.la
 
 TESTS = $(check_PROGRAMS)
