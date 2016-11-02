@@ -12,8 +12,12 @@ branches:
 before_script:
   - ./autogen.sh
 notifications:
+  email:
+    - bregma@users.noreply.github.com
   irc:
     channels:
-    - chat.freeode.net#legacy2345
+      - "chat.freeode.net#legacy2345"
     template:
-    - "%{repository}/%{branch} (%{commit} - %{author}): %{build_url}: %{message}"
+      - "%{repository_slug}/%{branch} (%{commit} : %{build_url}) %{message}"
+    use_notice: true
+    skip_jpin: true
