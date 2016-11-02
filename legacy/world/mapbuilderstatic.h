@@ -32,9 +32,22 @@ namespace World {
  * Builds a static map.
  */
 class MapBuilderStatic
+: public MapBuilder
 {
 public:
   ~MapBuilderStatic();
+
+  unsigned
+  map_length() override;
+
+  unsigned
+  map_width() override;
+
+  unsigned
+  map_height() override;
+
+  Legacy::World::MapLayerBag
+  layers() override;
 };
 
 } // namespace World

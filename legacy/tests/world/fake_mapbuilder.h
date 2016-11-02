@@ -39,15 +39,15 @@ public:
   ~MapBuilderFake()
   {}
 
-  int
+  unsigned
   map_length()
   { return 10; }
 
-  int
+  unsigned
   map_width()
   { return 10; }
 
-  int
+  unsigned
   map_height()
   { return 10; }
 

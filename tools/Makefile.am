@@ -1,6 +1,6 @@
 #
-# @file Makefile.am
-# @brief top-level automake recipe for the Legacy project
+# @file tools/Makefile.am
+# @brief automake recipe for Legacy tools
 #
 # Copyright 2011-2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
@@ -18,15 +18,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-AM_MAKEFLAGS = --no-print-directory
-
-SUBDIRS = $(subdirs) legacy tools
-
-EXTRA_DIST = \
-	AUTHORS \
-	COPYING \
-	INSTALL \
-	NEWS \
-	README.md
-
-test: check
+SUBDIRS = world

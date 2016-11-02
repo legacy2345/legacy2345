@@ -46,13 +46,13 @@ public:
   virtual ~MapBuilder() = 0;
 
   // the map extents
-  virtual int
+  virtual unsigned
   map_length() = 0;
 
-  virtual int
+  virtual unsigned
   map_width()  = 0;
 
-  virtual int
+  virtual unsigned
   map_height() = 0;
 
   virtual Legacy::World::MapLayerBag
@@ -68,14 +68,17 @@ class Map
 public:
   Map(MapBuilder& builder);
 
-  int length() const { return length_; }
-  int width() const  { return width_;  }
-  int height() const { return height_; }
+  unsigned length() const { return length_; }
+  unsigned width() const  { return width_;  }
+  unsigned height() const { return height_; }
+
+  MapLayer&
+  layer(unsigned i);
 
 private:
-  int          length_;
-  int          width_;
-  int          height_;
+  unsigned     length_;
+  unsigned     width_;
+  unsigned     height_;
   MapLayerBag  layers_;
 };
 

@@ -26,3 +26,28 @@ Legacy::World::MapBuilderStatic::
 ~MapBuilderStatic()
 { }
 
+unsigned Legacy::World::MapBuilderStatic::
+map_length()
+{
+  return 40;
+}
+
+unsigned Legacy::World::MapBuilderStatic::
+map_width()
+{
+  return 40;
+}
+
+unsigned Legacy::World::MapBuilderStatic::
+map_height()
+{
+  return 10;
+}
+
+Legacy::World::MapLayerBag Legacy::World::MapBuilderStatic::
+layers()
+{
+  return Legacy::World::MapLayerBag(this->map_height(),
+                        Legacy::World::MapLayer(this->map_length(), this->map_width()));
+}
+

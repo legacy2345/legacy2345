@@ -20,6 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "legacy/world/map.h"
+#include <stdexcept>
 
 
 Legacy::World::MapBuilder::
@@ -34,3 +35,12 @@ Map(MapBuilder& builder)
 , height_(builder.map_height())
 , layers_(builder.layers())
 { }
+
+
+Legacy::World::MapLayer& Legacy::World::Map::
+layer(unsigned i)
+{
+  if (i >= height_)
+    throw std::out_of_range("layer index out of range");
+  return layers_[i];
+}

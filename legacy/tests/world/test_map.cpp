@@ -23,6 +23,7 @@
 #include "fake_mapbuilder.h"
 #include "legacy/world/map.h"
 #include "legacy/world/mapbuilderstatic.h"
+#include <stdexcept>
 
 
 SCENARIO("basic interface for the MapBuilderStatic class")
@@ -48,6 +49,21 @@ SCENARIO("basic interface for the Map class")
         REQUIRE(map.width()  == map_builder.map_width());
         REQUIRE(map.height() == map_builder.map_height());
       }
+    }
+
+    WHEN("a requested layer index is out of bounds")
+    {
+      THEN("an out-of-range exception gets raised")
+      {
+        CHECK_THROWS_AS(map.layer(map_builder.map_height() + 3), std::out_of_range);
+      }
+    }
+
+    WHEN("a requested layer is retrieved, it has the right size")
+    {
+      Legacy::World::MapLayer layer = map.layer(1);
+      REQUIRE(layer.length() == map_builder.map_length());
+      REQUIRE(layer.width()  == map_builder.map_width());
     }
   }
 }

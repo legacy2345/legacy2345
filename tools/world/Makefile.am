@@ -1,6 +1,6 @@
 #
-# @file Makefile.am
-# @brief top-level automake recipe for the Legacy project
+# @file tools/world/Makefile.am
+# @brief automake recipe for Legacy world tools
 #
 # Copyright 2011-2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
@@ -18,15 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-AM_MAKEFLAGS = --no-print-directory
+bin_PROGRAMS = \
+  dump_map
 
-SUBDIRS = $(subdirs) legacy tools
+dump_map_SOURCES = \
+  dump_map.cpp
 
-EXTRA_DIST = \
-	AUTHORS \
-	COPYING \
-	INSTALL \
-	NEWS \
-	README.md
+dump_map_CPPFLAGS = \
+  -I${top_srcdir}
 
-test: check
+dump_map_LDADD = \
+  ${top_builddir}/legacy/world/liblegacyworld.la

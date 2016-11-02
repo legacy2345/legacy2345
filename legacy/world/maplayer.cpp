@@ -51,7 +51,7 @@ cell_index_at(unsigned x, unsigned y) const
 unsigned Legacy::World::MapLayer::
 cell_offset_of(unsigned x, unsigned y) const
 {
-  if (x > length_ || y > width_)
+  if (x >= length_ || y >= width_)
     throw std::out_of_range("cell index out of range");
   return y * length_ + x;
 }
