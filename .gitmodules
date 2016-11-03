@@ -1,0 +1,6 @@
+[submodule "3rd_party/fastnoise"]
+	path = 3rd_party/fastnoise
+	url = https://github.com/Auburns/FastNoise.git
+[submodule "3rd_party/catch"]
+	path = 3rd_party/catch
+	url = https://github.com/philsquared/Catch.git

@@ -49,8 +49,27 @@ SCENARIO("basic interface for the MapLayer class")
     {
       THEN("an out-of-range exception gets raised")
       {
-        CHECK_THROWS_AS(map_layer.cell_index_at(given_length+2, 1), std::out_of_range);
+        CHECK_THROWS_AS(map_layer.cell_index_at(-1, 1), std::out_of_range);
+        CHECK_THROWS_AS(map_layer.cell_index_at(0, -1), std::out_of_range);
+        CHECK_THROWS_AS(map_layer.cell_index_at(given_length, 1), std::out_of_range);
         CHECK_THROWS_AS(map_layer.cell_index_at(1, given_width+2), std::out_of_range);
+      }
+    }
+
+    WHEN("a cell is updated with and invalid address")
+    {
+      THEN("an out-of-range exception gets raised")
+      {
+        CHECK_THROWS_AS(map_layer.set_cell_index_at(-1, 1, 1), std::out_of_range);
+      }
+    }
+
+    WHEN("a cell is updated")
+    {
+      map_layer.set_cell_index_at(1, 1, 1);
+      THEN("the value retrieved for that same address should match the new value")
+      {
+        REQUIRE(map_layer.cell_index_at(1, 1) == 1);
       }
     }
   }

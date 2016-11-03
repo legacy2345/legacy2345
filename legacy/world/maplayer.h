@@ -36,6 +36,8 @@ class MapLayer
 public:
   MapLayer(unsigned length, unsigned width);
 
+  MapLayer(MapLayer const& rhs) = default;
+
   /** The east-west extent of the map layer. */
   unsigned
   length() const;
@@ -44,8 +46,13 @@ public:
   unsigned
   width() const;
 
+  /** Gets the cache index of the cell at given coordinates. */
   int
   cell_index_at(unsigned x, unsigned y) const;
+
+  /** Sets the cache index of the cell at given coordinates. */
+  void
+  set_cell_index_at(unsigned x, unsigned y, int index);
 
 private:
   unsigned 

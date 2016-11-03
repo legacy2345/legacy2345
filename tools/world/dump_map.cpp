@@ -22,14 +22,14 @@
  */
 #include <iostream>
 #include "legacy/world/map.h"
-#include "legacy/world/mapbuilderstatic.h"
+#include "legacy/world/mapbuildersimple.h"
 
 
 int
 main(int argc, char* argv[])
 {
-  Legacy::World::MapBuilderStatic map_builder_static;
-  Legacy::World::Map map(map_builder_static);
+  Legacy::World::MapBuilderSimple map_builder(48, 48, 20, 1);
+  Legacy::World::Map map(map_builder);
 
   std::cout << "map is " << map.length() << "x" << map.width() << "x" << map.height() << "\n";
   for (unsigned i = 0; i < map.height(); ++i)

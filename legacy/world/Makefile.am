@@ -21,11 +21,14 @@
 noinst_LTLIBRARIES = liblegacyworld.la
 
 liblegacyworld_la_SOURCES = \
+  ${top_srcdir}/legacy/3rd_party/FastNoise/FastNoise.h ${top_srcdir}/legacy/3rd_party/FastNoise/FastNoise.cpp \
   cell.h \
   cellcache.h \
   map.h              map.cpp \
   maplayer.h         maplayer.cpp \
+  mapbuildersimple.h mapbuildersimple.cpp \
   mapbuilderstatic.h mapbuilderstatic.cpp
 
 liblegacyworld_la_CPPFLAGS = \
-  -I${top_srcdir}
+  -I${top_srcdir} \
+  -I${top_srcdir}/legacy/3rd_party

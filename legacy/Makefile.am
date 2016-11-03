@@ -20,3 +20,4 @@
 
 SUBDIRS = world tests
 
+EXTRA_DIST = 3rd_party

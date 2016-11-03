@@ -30,10 +30,12 @@ MapLayer(unsigned length, unsigned width)
 , cells_(length*width)
 { }
 
+
 unsigned
 Legacy::World::MapLayer::
 length() const
 { return length_; }
+
 
 unsigned
 Legacy::World::MapLayer::
@@ -43,9 +45,12 @@ width() const
 
 int Legacy::World::MapLayer::
 cell_index_at(unsigned x, unsigned y) const
-{
-  return cells_[this->cell_offset_of(x, y)];
-}
+{ return cells_[this->cell_offset_of(x, y)]; }
+
+
+void Legacy::World::MapLayer::
+set_cell_index_at(unsigned x, unsigned y, int index)
+{ cells_[this->cell_offset_of(x, y)] = index; }
 
 
 unsigned Legacy::World::MapLayer::
