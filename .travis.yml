@@ -31,7 +31,9 @@ before_install:
 before_script:
   - mkdir build
   - cd build
-  - ../autogen.sh
+  - ../autogen.sh CXX=$COMPILER
+script:
+  - make && make check
 
 notifications:
   email:
