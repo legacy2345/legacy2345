@@ -73,4 +73,20 @@ SCENARIO("basic interface for the MapLayer class")
       }
     }
   }
+
+  GIVEN("Two map layers created from the same criteria")
+  {
+    static const int given_length = 12;
+    static const int given_width  = 12;
+    Legacy::World::MapLayer map_layer1(given_length, given_width);
+    Legacy::World::MapLayer map_layer2(given_length, given_width);
+
+    WHEN("compared for equality")
+    {
+      THEN("the result should be true")
+      {
+        REQUIRE(map_layer1 == map_layer2);
+      }
+    }
+  }
 }

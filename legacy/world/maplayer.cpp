@@ -20,6 +20,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "legacy/world/maplayer.h"
+
+#include <iomanip>
+#include <iostream>
 #include <stdexcept>
 
 
@@ -61,3 +64,39 @@ cell_offset_of(unsigned x, unsigned y) const
   return y * length_ + x;
 }
 
+
+std::ostream& Legacy::World::
+operator<<(std::ostream& ostr, MapLayer const& layer)
+{
+  for (unsigned y = 0; y < layer.width(); ++y)
+  {
+    for (unsigned x = 0; x < layer.length(); ++x)
+    {
+      ostr << std::setw(4) << layer.cell_index_at(x, y);
+    }
+    ostr << "\n";
+  }
+  return ostr;
+}
+
+
+bool Legacy::World::
+operator==(MapLayer const& lhs, MapLayer const& rhs)
+{
+  if (lhs.length() != rhs.length())
+    return false;
+
+  if (lhs.width() != rhs.width())
+    return false;
+
+  for (unsigned y = 0; y < lhs.width(); ++y)
+  {
+    for (unsigned x = 0; x < lhs.length(); ++x)
+    {
+      if (lhs.cell_index_at(x, y) != rhs.cell_index_at(x, y))
+        return false;
+    }
+  }
+
+  return true;
+}

@@ -27,7 +27,8 @@ liblegacyworld_la_SOURCES = \
   map.h              map.cpp \
   maplayer.h         maplayer.cpp \
   mapbuildersimple.h mapbuildersimple.cpp \
-  mapbuilderstatic.h mapbuilderstatic.cpp
+  mapbuilderstatic.h mapbuilderstatic.cpp \
+  mapbuilderstream.h mapbuilderstream.cpp
 
 liblegacyworld_la_CPPFLAGS = \
   -I${top_srcdir} \

@@ -22,6 +22,7 @@
 #ifndef LEGACY_WORLD_MAP_H_
 #define LEGACY_WORLD_MAP_H_
 
+#include <iosfwd>
 #include "legacy/world/maplayer.h"
 #include <vector>
 
@@ -75,12 +76,22 @@ public:
   MapLayer&
   layer(unsigned i);
 
+  MapLayer const&
+  layer(unsigned i) const;
+
 private:
   unsigned     length_;
   unsigned     width_;
   unsigned     height_;
   MapLayerBag  layers_;
 };
+
+
+std::ostream&
+operator<<(std::ostream& ostr, Map const& map);
+
+bool
+operator==(Map const& lhs, Map const& rhs);
 
 } // namespace World
 } // namespace Legacy
