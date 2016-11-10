@@ -81,9 +81,28 @@ SCENARIO("basic interface for the MapLayer class")
     Legacy::World::MapLayer map_layer1(given_length, given_width);
     Legacy::World::MapLayer map_layer2(given_length, given_width);
 
-    WHEN("compared for equality")
+    WHEN("first created")
     {
-      THEN("the result should be true")
+      THEN("they should compare as equal")
+      {
+        REQUIRE(map_layer1 == map_layer2);
+      }
+    }
+
+    WHEN("only one has changed")
+    {
+      map_layer1.set_cell_index_at(2, 2, 2);
+      THEN("they should compare as inequal")
+      {
+        REQUIRE(map_layer1 != map_layer2);
+      }
+    }
+
+    WHEN("both have had the same changes")
+    {
+      map_layer1.set_cell_index_at(2, 2, 2);
+      map_layer2.set_cell_index_at(2, 2, 2);
+      THEN("they should compare as inequal")
       {
         REQUIRE(map_layer1 == map_layer2);
       }
