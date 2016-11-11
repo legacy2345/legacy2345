@@ -24,6 +24,7 @@
 #include "legacy/world/map.h"
 #include "legacy/world/mapbuilderstream.h"
 #include <sstream>
+#include <stdexcept>
 
 
 SCENARIO("saving and loading a map object yields an identical copy")
@@ -44,6 +45,24 @@ SCENARIO("saving and loading a map object yields an identical copy")
         Legacy::World::Map map2(stream_builder);
 
         REQUIRE(map == map2);
+      }
+    }
+  }
+}
+
+
+SCENARIO("map streamloading failures")
+{
+  GIVEN("An empty stream")
+  {
+    std::stringstream sstr;
+
+    WHEN("an attempt is made to laod a map from it")
+    {
+      Legacy::World::MapBuilderStream stream_builder(sstr);
+      THEN("An exception is thrown.")
+      {
+        CHECK_THROWS_AS(Legacy::World::Map map(stream_builder), std::runtime_error);
       }
     }
   }
