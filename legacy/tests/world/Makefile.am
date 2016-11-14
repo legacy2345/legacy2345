@@ -24,8 +24,9 @@ test_world_SOURCES = \
   fake_mapbuilder.h \
   test_cell.cpp \
   test_cellcache.cpp \
-  test_layer.cpp \
   test_map.cpp \
+  test_map_save_and_load.cpp \
+  test_maplayer.cpp \
   test_world.cpp 
 
 test_world_CPPFLAGS = \

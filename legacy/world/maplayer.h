@@ -22,6 +22,7 @@
 #ifndef LEGACY_WORLD_MAPLAYER_H_
 #define LEGACY_WORLD_MAPLAYER_H_
 
+#include <iosfwd>
 #include <vector>
 
 
@@ -63,6 +64,17 @@ private:
   unsigned         width_;
   std::vector<int> cells_;
 };
+
+
+std::ostream&
+operator<<(std::ostream& ostr, MapLayer const& layer);
+
+bool
+operator==(MapLayer const& lhs, MapLayer const& rhs);
+
+bool inline
+operator!=(MapLayer const& lhs, MapLayer const& rhs)
+{ return !(lhs == rhs); }
 
 } // namespace World
 } // namespace Legacy

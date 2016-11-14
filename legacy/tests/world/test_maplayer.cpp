@@ -73,4 +73,39 @@ SCENARIO("basic interface for the MapLayer class")
       }
     }
   }
+
+  GIVEN("Two map layers created from the same criteria")
+  {
+    static const int given_length = 12;
+    static const int given_width  = 12;
+    Legacy::World::MapLayer map_layer1(given_length, given_width);
+    Legacy::World::MapLayer map_layer2(given_length, given_width);
+
+    WHEN("first created")
+    {
+      THEN("they should compare as equal")
+      {
+        REQUIRE(map_layer1 == map_layer2);
+      }
+    }
+
+    WHEN("only one has changed")
+    {
+      map_layer1.set_cell_index_at(2, 2, 2);
+      THEN("they should compare as inequal")
+      {
+        REQUIRE(map_layer1 != map_layer2);
+      }
+    }
+
+    WHEN("both have had the same changes")
+    {
+      map_layer1.set_cell_index_at(2, 2, 2);
+      map_layer2.set_cell_index_at(2, 2, 2);
+      THEN("they should compare as inequal")
+      {
+        REQUIRE(map_layer1 == map_layer2);
+      }
+    }
+  }
 }
