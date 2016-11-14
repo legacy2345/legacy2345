@@ -14,17 +14,34 @@ the file 'COPYING'.
 Getting Started
 ---------------
 
-Check out the code, build it.
+**Legacy 2345** is in the pre-alpha development stage at this point and only
+available as a git clone buildable on POSIXish systems.
+
+To get the latest version for evaluation, clone this repo and build from source.
+
+```sh
+git git@github.com:legacy2345/v3.git legcy2345
+mkdir build; cd build
+../legacy2345/autogen.sh
+make check
+```
 
 Prerequisites
 -------------
 
-To be determined.
+Current requirements for building include the following.
+- A C++11 compliant compiler (GCC 4.9 or later, clang 3.7 or later)
+- The development packages for the following libraries:
+  - libSDL2, libSDL_image
+  - OpenGL, GLEW
+  - libfreetype2
 
 Contributing
 ------------
 
-To be determined.
+The best way to start contributing is to clone and build the code, then choose
+an issue from the [issues list](https://github.com/legacy2345/v3/issues), develop a branch for it, and create a pull
+request for your solution.
 
 License
 -------
