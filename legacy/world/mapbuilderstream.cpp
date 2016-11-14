@@ -46,6 +46,7 @@ struct confirm_input
     if (!istr.good())
       return istr;
 
+    std::istream::sentry skip_leading_ws(istr);
     for (char const* p = op.str; *p; ++p)
     {
       if (std::isspace(*p))
@@ -59,6 +60,7 @@ struct confirm_input
         if (c != *p)
         {
           istr.setstate( std::ios::failbit ); // stop extracting
+          break;
         }
       }
     }
@@ -79,14 +81,12 @@ MapBuilderStream(std::istream& istr)
   if (!istr_)
     throw std::runtime_error("error reading map: expected 'version'");
   istr_ >> version;
-  istr_.ignore();
   istr_ >> confirm_input("lwh ");
   if (!istr_)
     throw std::runtime_error("error reading map: expected 'lwh'");
   istr_ >> length_ >> width_ >> height_;
   if (!istr_)
     throw std::runtime_error("error reading map: expected integers for l,w,h");
-  istr_.ignore();
 }
 
 
@@ -122,14 +122,13 @@ layers()
   MapLayerBag layers(height_, MapLayer(length_, width_));
   for (unsigned i = 0; i < height_; ++i)
   {
-    int num;
     istr_ >> confirm_input("layer ");
     if (!istr_)
       throw std::runtime_error("error reading map: expected 'layer'");
+    int num;
     istr_ >> num;
     if (!istr_)
       throw std::runtime_error("error reading map: expected layer number");
-    istr_.ignore();
     for (unsigned y = 0; y < width_; ++y)
     {
       for (unsigned x = 0; x < length_; ++x)
@@ -139,7 +138,6 @@ layers()
           throw std::runtime_error("error reading map: expected index");
         layers[i].set_cell_index_at(x, y, num);
       }
-      istr_.ignore();
     }
   }
   return layers;
