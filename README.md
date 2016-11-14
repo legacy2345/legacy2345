@@ -20,7 +20,7 @@ available as a git clone buildable on POSIXish systems.
 To get the latest version for evaluation, clone this repo and build from source.
 
 ```sh
-git git@github.com:legacy2345/v3.git legcy2345
+git clone git@github.com:legacy2345/v3.git legcy2345
 mkdir build; cd build
 ../legacy2345/autogen.sh
 make check
