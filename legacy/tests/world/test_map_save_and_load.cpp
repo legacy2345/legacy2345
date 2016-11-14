@@ -59,10 +59,9 @@ SCENARIO("map streamloading failures")
 
     WHEN("an attempt is made to laod a map from it")
     {
-      Legacy::World::MapBuilderStream stream_builder(sstr);
       THEN("An exception is thrown.")
       {
-        CHECK_THROWS_AS(Legacy::World::Map map(stream_builder), std::runtime_error);
+        CHECK_THROWS_AS(Legacy::World::MapBuilderStream stream_builder(sstr), std::runtime_error);
       }
     }
   }
