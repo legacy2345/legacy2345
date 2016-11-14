@@ -20,7 +20,7 @@ available as a git clone buildable on POSIXish systems.
 To get the latest version for evaluation, clone this repo and build from source.
 
 ```sh
-git git@github.com:legacy2345/v3.git legcy2345
+git clone git@github.com:legacy2345/v3.git legcy2345
 mkdir build; cd build
 ../legacy2345/autogen.sh
 make check
@@ -41,7 +41,8 @@ Contributing
 
 The best way to start contributing is to clone and build the code, then choose
 an issue from the [issues list](https://github.com/legacy2345/v3/issues), develop a branch for it, and create a pull
-request for your solution.
+request for your solution. See
+[CONTRIBUTING.md](https://github.com/legacy2345/v3/blob/master/.github/CONTRIBUTING.md)
 
 License
 -------
