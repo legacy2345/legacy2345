@@ -41,7 +41,8 @@ Contributing
 
 The best way to start contributing is to clone and build the code, then choose
 an issue from the [issues list](https://github.com/legacy2345/v3/issues), develop a branch for it, and create a pull
-request for your solution.
+request for your solution. See
+[CONTRIBUTING.md](https://github.com/legacy2345/v3/blob/master/.github/CONTRIBUTING.md)
 
 License
 -------
