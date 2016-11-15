@@ -1,6 +1,6 @@
 #
-# @file legacy/Makefile.am
-# @brief automake recipe for Legacy
+# @file legacy/character/Makefile.am
+# @brief automake recipe for Legacy character submodule
 #
 # Copyright 2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
@@ -18,6 +18,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-SUBDIRS = character world tests
+noinst_LTLIBRARIES = liblegacycharacter.la
 
-EXTRA_DIST = 3rd_party
+liblegacycharacter_la_SOURCES =
+
+liblegacycharacter_la_CPPFLAGS = \
+  -I${top_srcdir} \
+  -I${top_srcdir}/legacy/3rd_party
