@@ -20,7 +20,8 @@
 
 noinst_LTLIBRARIES = liblegacycore.la
 
-liblegacycore_la_SOURCES =
+liblegacycore_la_SOURCES = \
+  random.h     random.cpp
 
 liblegacycore_la_CPPFLAGS = \
   -I${top_srcdir} \
