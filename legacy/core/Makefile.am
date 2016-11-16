@@ -1,6 +1,6 @@
 #
-# @file legacy/Makefile.am
-# @brief automake recipe for Legacy
+# @file legacy/core/Makefile.am
+# @brief automake recipe for Legacy core submodule
 #
 # Copyright 2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
@@ -18,6 +18,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-SUBDIRS = core world tests
+noinst_LTLIBRARIES = liblegacycore.la
 
-EXTRA_DIST = 3rd_party
+liblegacycore_la_SOURCES = \
+  random.h     random.cpp
+
+liblegacycore_la_CPPFLAGS = \
+  -I${top_srcdir} \
+  -I${top_srcdir}/legacy/3rd_party
