@@ -21,13 +21,15 @@
 check_PROGRAMS = test_character
 
 test_character_SOURCES = \
-  test_character.cpp 
+  test_character.cpp \
+  test_sexuality.cpp
 
 test_character_CPPFLAGS = \
   -I$(top_srcdir) \
   -I$(top_srcdir)/legacy/tests/3rd_party
 
 test_character_LDADD = \
-  ${top_builddir}/legacy/character/liblegacycharacter.la
+  ${top_builddir}/legacy/character/liblegacycharacter.la \
+  ${top_builddir}/legacy/core/liblegacycore.la
 
 TESTS = $(check_PROGRAMS)

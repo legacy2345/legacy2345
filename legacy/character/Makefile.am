@@ -20,7 +20,9 @@
 
 noinst_LTLIBRARIES = liblegacycharacter.la
 
-liblegacycharacter_la_SOURCES =
+liblegacycharacter_la_SOURCES = \
+  sexuality.h  sexuality.cpp \
+  sexualityconfig.h
 
 liblegacycharacter_la_CPPFLAGS = \
   -I${top_srcdir} \
