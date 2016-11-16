@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-SUBDIRS = character world
+SUBDIRS = core character world
 
 EXTRA_DIST = 3rd_party
 

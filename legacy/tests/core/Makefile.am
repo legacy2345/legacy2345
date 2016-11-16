@@ -1,6 +1,6 @@
 #
-# @file legacy/Makefile.am
-# @brief automake recipe for Legacy
+# @file legacy/tests/core/Makefile.am
+# @brief automake recipe for Legacy core submodule tests
 #
 # Copyright 2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
@@ -18,6 +18,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-SUBDIRS = core character world tests
+check_PROGRAMS = test_core
 
-EXTRA_DIST = 3rd_party
+test_core_SOURCES = \
+  test_core.cpp \
+  test_random.cpp
+
+test_core_CPPFLAGS = \
+  -I$(top_srcdir) \
+  -I$(top_srcdir)/legacy/tests/3rd_party
+
+test_core_LDADD = \
+  ${top_builddir}/legacy/core/liblegacycore.la
+
+TESTS = $(check_PROGRAMS)
