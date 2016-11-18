@@ -1,6 +1,10 @@
 Legacy 2345
 ===========
 
+[![Build Status](https://travis-ci.org/legacy2345/legacy2345.svg?branch=master)](https://travis-ci.org/legacy2345/legacy2345)
+[![License](https://img.shields.io/badge/license-GPLv3-7DB3C5.svg)](https://github.com/legacy2345/legacy2345/blob/master/COPYING)
+[![Project Status](https://img.shields.io/badge/Project_Status-pre--alpha-C5A27E.svg)](https://github.com/legacy2345/legacy2345)
+
 **Legacy 2345** is a science fiction themed simulation game in which the player controls
 a colony on an isolated planet in the far reaches of the galaxy.  The goal is to
 build the colony, explore the planet, and generally survive and maybe thrive.
