@@ -22,6 +22,7 @@ check_PROGRAMS = test_character
 
 test_character_SOURCES = \
   test_character.cpp \
+  test_name_generator.cpp \
   test_sexuality.cpp
 
 test_character_CPPFLAGS = \
