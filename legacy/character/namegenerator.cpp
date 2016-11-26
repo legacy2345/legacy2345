@@ -34,7 +34,7 @@ public:
   ~StaticNameGenerator() { }
 
   std::string
-  pick_name(Legacy::Core::RandomNumberGenerator* rng)
+  pick_name(Legacy::Core::RandomNumberGenerator& rng)
   {
     return "Moon";
   }

@@ -44,7 +44,7 @@ public:
   ~NameGenerator() = 0;
 
   virtual std::string
-  pick_name(Core::RandomNumberGenerator* rng) = 0;
+  pick_name(Core::RandomNumberGenerator& rng) = 0;
 };
 
 std::unique_ptr<NameGenerator>
