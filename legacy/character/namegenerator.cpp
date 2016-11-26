@@ -25,6 +25,23 @@
 
 
 /**
+ * A static name generator for testing.
+ */
+class StaticNameGenerator
+: public Legacy::Character::NameGenerator
+{
+public:
+  ~StaticNameGenerator() { }
+
+  std::string
+  pick_name(Legacy::Core::RandomNumberGenerator* rng)
+  {
+    return "Moon";
+  }
+};
+
+
+/**
  * Abstract base class for various kinds of character name generators.
  */
 Legacy::Character::NameGenerator::
@@ -39,7 +56,7 @@ get_name_generator(NameConfig const& config)
 
   if (generator_type == "static")
   {
-    return nullptr;
+    return std::unique_ptr<Legacy::Character::NameGenerator>(new StaticNameGenerator());
   }
   throw std::out_of_range("invalid name generator type specified");
 }

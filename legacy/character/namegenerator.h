@@ -21,7 +21,9 @@
 #ifndef LEGACY_CHARACTER_NAMEGENERATOR_H
 #define LEGACY_CHARACTER_NAMEGENERATOR_H
 
+#include "legacy/core/random.h"
 #include <memory>
+#include <string>
 
 
 namespace Legacy
@@ -40,6 +42,9 @@ class NameGenerator
 public:
   virtual
   ~NameGenerator() = 0;
+
+  virtual std::string
+  pick_name(Core::RandomNumberGenerator* rng) = 0;
 };
 
 std::unique_ptr<NameGenerator>
