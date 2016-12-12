@@ -21,9 +21,11 @@
 noinst_LTLIBRARIES = liblegacycharacter.la
 
 liblegacycharacter_la_SOURCES = \
-  nameconfig.h      nameconfig.cpp \
-  namegenerator.h   namegenerator.cpp \
-  sexuality.h       sexuality.cpp \
+  character.h         character.cpp \
+  characterbuilder.h  characterbuilder.cpp \
+  nameconfig.h        nameconfig.cpp \
+  namegenerator.h     namegenerator.cpp \
+  sexuality.h         sexuality.cpp \
   sexualityconfig.h
 
 liblegacycharacter_la_CPPFLAGS = \
