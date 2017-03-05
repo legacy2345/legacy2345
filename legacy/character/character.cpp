@@ -25,6 +25,10 @@
 
 Legacy::Character::Character::
 Character(Legacy::Character::CharacterBuilder& builder)
+: age_(builder.age())
+, given_name_(builder.choose_given_name())
+, surname_(builder.choose_surname())
+, sexuality_(builder.choose_sexuality())
 { }
 
 Legacy::Character::Character::

@@ -24,3 +24,11 @@
 Legacy::Character::CharacterBuilder::
 ~CharacterBuilder()
 { }
+
+
+int Legacy::Character::CharacterBuilder::
+age()
+{
+  return 18;
+}
+

@@ -21,6 +21,9 @@
 #ifndef LEGACY_CHARACTER_CHARACTER_H_
 #define LEGACY_CHARACTER_CHARACTER_H_
 
+#include "legacy/character/sexuality.h"
+#include <string>
+
 
 namespace Legacy
 {
@@ -35,6 +38,24 @@ public:
   Character(CharacterBuilder& builder);
 
   ~Character();
+
+  int
+  age() const
+  { return age_; }
+
+  std::string const&
+  given_name() const
+  { return given_name_; }
+
+  std::string const&
+  surname() const
+  { return surname_; }
+
+private:
+  int         age_;
+  std::string given_name_;
+  std::string surname_;
+  Sexuality   sexuality_;
 };
 
 

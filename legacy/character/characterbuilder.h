@@ -3,7 +3,7 @@
  * @brief Public interface of the Legacy character builder class.
  */
 /*
- * Copyright 2015-2016 Stephen M. Webb <stephen.webb@bregmasoft.ca>
+ * Copyright 2015-2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,9 @@
 #ifndef LEGACY_CHARACTER_CHARACTERBUILDER_H_
 #define LEGACY_CHARACTER_CHARACTERBUILDER_H_
 
+#include "legacy/character/sexuality.h"
+#include <string>
+
 
 namespace Legacy
 {
@@ -30,7 +33,20 @@ namespace Character
 class CharacterBuilder
 {
 public:
-  ~CharacterBuilder();
+  virtual
+  ~CharacterBuilder() = 0;
+
+  virtual int
+  age();
+
+  virtual std::string
+  choose_given_name() = 0;
+
+  virtual std::string
+  choose_surname() = 0;
+
+  virtual Sexuality
+  choose_sexuality() = 0;
 };
 
 
