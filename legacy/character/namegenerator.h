@@ -3,7 +3,7 @@
  * @brief part of the Legacy character name submodule.
  */
 /*
- * Copyright 2015-2016 Stephen M. Webb <stephen.webb@bregmasoft.ca>
+ * Copyright 2015-2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #ifndef LEGACY_CHARACTER_NAMEGENERATOR_H
 #define LEGACY_CHARACTER_NAMEGENERATOR_H
 
+#include "legacy/character/sexuality.h"
 #include "legacy/core/random.h"
 #include <memory>
 #include <string>
@@ -40,15 +41,22 @@ class NameConfig;
 class NameGenerator
 {
 public:
+  using OwningPtr = std::unique_ptr<NameGenerator>;
+
+  enum class Part { forename, surname };
+
+public:
   virtual
   ~NameGenerator() = 0;
 
   virtual std::string
-  pick_name(Core::RandomNumberGenerator& rng) = 0;
+  pick_name(Sexuality::Gender            gender,
+            Core::RandomNumberGenerator& rng) = 0;
 };
 
-std::unique_ptr<NameGenerator>
-get_name_generator(NameConfig const& config);
+NameGenerator::OwningPtr
+get_name_generator(NameConfig const&   config,
+                   NameGenerator::Part part);
 
 
 } // namespace Character

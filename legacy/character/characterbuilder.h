@@ -40,10 +40,10 @@ public:
   age();
 
   virtual std::string
-  choose_given_name() = 0;
+  choose_given_name(Sexuality::Gender gender) = 0;
 
   virtual std::string
-  choose_surname() = 0;
+  choose_surname(Sexuality::Gender gender) = 0;
 
   virtual Sexuality
   choose_sexuality() = 0;

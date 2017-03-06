@@ -2,7 +2,7 @@
 # @file legacy/character/Makefile.am
 # @brief automake recipe for Legacy character submodule
 #
-# Copyright 2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
+# Copyright 2016-2017 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,11 +21,13 @@
 noinst_LTLIBRARIES = liblegacycharacter.la
 
 liblegacycharacter_la_SOURCES = \
-  character.h         character.cpp \
-  characterbuilder.h  characterbuilder.cpp \
-  nameconfig.h        nameconfig.cpp \
-  namegenerator.h     namegenerator.cpp \
-  sexuality.h         sexuality.cpp \
+  character.h               character.cpp \
+  characterbuilder.h        characterbuilder.cpp \
+  characterconfig.h \
+  basiccharacterbuilder.h   basiccharacterbuilder.cpp \
+  nameconfig.h              nameconfig.cpp \
+  namegenerator.h           namegenerator.cpp \
+  sexuality.h               sexuality.cpp \
   sexualityconfig.h
 
 liblegacycharacter_la_CPPFLAGS = \

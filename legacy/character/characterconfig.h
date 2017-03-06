@@ -1,9 +1,9 @@
 /**
- * @file legacy/character/character.cpp
- * @brief Public interface of the Legacy character submodule character class.
+ * @file legacy/character/characterconfig.h
+ * @brief part of the Legacy character submodule.
  */
 /*
- * Copyright 2016 Stephen M. Webb <stephen.webb@bregmasoft.ca>
+ * Copyright 2015-2016 Stephen M. Webb <stephen.webb@bregmasoft.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,19 +18,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "legacy/character/character.h"
+#ifndef LEGACY_CHARACTER_CHARACTERCONFIG_H
+#define LEGACY_CHARACTER_CHARACTERCONFIG_H
 
-#include "legacy/character/characterbuilder.h"
+#include "legacy/character/nameconfig.h"
+#include "legacy/character/sexualityconfig.h"
 
 
-Legacy::Character::Character::
-Character(Legacy::Character::CharacterBuilder& builder)
-: age_(builder.age())
-, sexuality_(builder.choose_sexuality())
-, given_name_(builder.choose_given_name(sexuality_.gender()))
-, surname_(builder.choose_surname(sexuality_.gender()))
-{ }
+namespace Legacy
+{
+namespace Character
+{
 
-Legacy::Character::Character::
-~Character()
-{ }
+class CharacterConfig
+: public NameConfig
+, public SexualityConfig
+{
+};
+
+
+} // namespace Character
+} // namespace Legacy
+
+#endif /* LEGACY_CHARACTER_CHARACTERCONFIG_H */

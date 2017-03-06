@@ -3,7 +3,7 @@
  * @brief Public interface of the Legacy character submodule character class.
  */
 /*
- * Copyright 2016 Stephen M. Webb <stephen.webb@bregmasoft.ca>
+ * Copyright 2016-2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -53,9 +53,9 @@ public:
 
 private:
   int         age_;
+  Sexuality   sexuality_;
   std::string given_name_;
   std::string surname_;
-  Sexuality   sexuality_;
 };
 
 

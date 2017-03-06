@@ -25,15 +25,19 @@
 #include "legacy/character/characterbuilder.h"
 
 
+using Legacy::Character::CharacterBuilder;
+using Legacy::Character::Sexuality;
+
+
 class FakeCharacterBuilder
-: public Legacy::Character::CharacterBuilder
+: public CharacterBuilder
 {
   std::string
-  choose_given_name() override
+  choose_given_name(Sexuality::Gender) override
   { return "Jethro"; }
 
   std::string
-  choose_surname() override
+  choose_surname(Sexuality::Gender) override
   { return "Smith"; }
 
   Legacy::Character::Sexuality

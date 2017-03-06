@@ -3,7 +3,7 @@
  * @brief Public interface of the Legacy character builder class.
  */
 /*
- * Copyright 2016 Stephen M. Webb <stephen.webb@bregmasoft.ca>
+ * Copyright 2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

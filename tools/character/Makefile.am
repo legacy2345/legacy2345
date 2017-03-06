@@ -2,7 +2,7 @@
 # @file tools/character/Makefile.am
 # @brief automake recipe for Legacy world tools
 #
-# Copyright 2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
+# Copyright 2016-2017 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,8 @@
 #
 
 bin_PROGRAMS = \
-  test_character_namegen
+  test_character_namegen \
+  test_character_sexuality
 
 test_character_namegen_SOURCES = \
   test_character_namegen.cpp
@@ -30,3 +31,14 @@ test_character_namegen_CPPFLAGS = \
 test_character_namegen_LDADD = \
   ${top_builddir}/legacy/character/liblegacycharacter.la \
   ${top_builddir}/legacy/core/liblegacycore.la
+
+test_character_sexuality_SOURCES = \
+  test_character_sexuality.cpp
+
+test_character_sexuality_CPPFLAGS = \
+  -I${top_srcdir}
+
+test_character_sexuality_LDADD = \
+  ${top_builddir}/legacy/character/liblegacycharacter.la \
+  ${top_builddir}/legacy/core/liblegacycore.la
+

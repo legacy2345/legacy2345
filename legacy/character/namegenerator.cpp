@@ -3,7 +3,7 @@
  * @brief part of the Legacy character name submodule.
  */
 /*
- * Copyright 2015-2016 Stephen M. Webb <stephen.webb@bregmasoft.ca>
+ * Copyright 2015-2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,8 @@ public:
   ~StaticNameGenerator() { }
 
   std::string
-  pick_name(Legacy::Core::RandomNumberGenerator& rng)
+  pick_name(Legacy::Character::Sexuality::Gender,
+            Legacy::Core::RandomNumberGenerator&)
   {
     return "Moon";
   }
@@ -49,14 +50,15 @@ Legacy::Character::NameGenerator::
 { }
 
 
-std::unique_ptr<Legacy::Character::NameGenerator> Legacy::Character::
-get_name_generator(NameConfig const& config)
+Legacy::Character::NameGenerator::OwningPtr Legacy::Character::
+get_name_generator(NameConfig const&   config,
+                   NameGenerator::Part part)
 {
   std::string generator_type = config.generator_type();
 
   if (generator_type == "static")
   {
-    return std::unique_ptr<Legacy::Character::NameGenerator>(new StaticNameGenerator());
+    return NameGenerator::OwningPtr(new StaticNameGenerator());
   }
   throw std::out_of_range("invalid name generator type specified");
 }

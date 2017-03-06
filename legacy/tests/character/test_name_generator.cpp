@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright 2016 Stephen M. Webb <stephen.webb@bregmasoft.ca>
+ * Copyright 2016-2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,11 +40,13 @@ SCENARIO("The name generator factory handles invalid input.")
 
     } fake_name_config;
 
-    WHEN("the name generator factory as asked for a name generator")
+    WHEN("the name generator factory is asked for a name generator")
     {
       THEN("it throws an exception.")
       {
-        CHECK_THROWS_AS(auto junk = Legacy::Character::get_name_generator(fake_name_config), std::out_of_range);
+        CHECK_THROWS_AS(auto junk = Legacy::Character::get_name_generator(fake_name_config,
+                                                                          Legacy::Character::NameGenerator::Part::surname),
+                        std::out_of_range);
       }
     }
   }

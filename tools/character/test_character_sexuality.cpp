@@ -1,10 +1,10 @@
 /**
- * @file tools/character/test_character_namegen.cpp
- * @brief A tool to exercise the character name generator submodule.
+ * @file tools/character/test_character_sexuality.cpp
+ * @brief A tool to exercise the character sexuality generator submodule.
  */
 
 /*
- * Copyright 2016,2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
+ * Copyright 2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,27 +22,18 @@
 #include <cstdlib>
 #include <getopt.h>
 #include <iostream>
-#include "legacy/character/nameconfig.h"
-#include "legacy/character/namegenerator.h"
 #include "legacy/character/sexuality.h"
+#include "legacy/character/sexualityconfig.h"
 #include "legacy/core/random.h"
 #include <stdexcept>
 
 
-using Legacy::Character::get_name_generator;
-using Legacy::Character::NameGenerator;
-using Legacy::Character::Sexuality;
-
-
-void
-test_character_namegen(Legacy::Character::NameConfig const& config)
+static void
+test_character_sexuality(Legacy::Character::SexualityConfig const& config,
+                         Legacy::Core::RandomNumberGenerator       rng)
 {
-  auto given_name_generator = get_name_generator(config, NameGenerator::Part::forename);
-  auto familial_name_generator = get_name_generator(config, NameGenerator::Part::surname);
-  auto rng = Legacy::Core::RandomNumberGenerator();
-  std::cerr << given_name_generator->pick_name(Sexuality::Gender::masculine, rng)
-            << " " << familial_name_generator->pick_name(Sexuality::Gender::masculine, rng)
-            << "\n";
+  auto sexuality = Legacy::Character::Sexuality::generate(config, rng);
+  std::cout << sexuality << "\n";
 }
 
 
@@ -58,8 +49,6 @@ print_help(char const* argv0)
 int
 main(int argc, char* argv[])
 {
-  std::string savefile_name;
-
   static const option options[] = {
     { "help",       no_argument,       0,    'h' },
     { NULL,         no_argument,       NULL,  0  }
@@ -88,16 +77,9 @@ main(int argc, char* argv[])
 
   try
   {
-    class FakeNameConfig
-    : public Legacy::Character::NameConfig
-    {
-    public:
-      std::string
-      generator_type() const override
-      { return "static"; }
-
-    } fake_name_config;
-    test_character_namegen(fake_name_config);
+    Legacy::Character::SexualityConfig config;
+    Legacy::Core::RandomNumberGenerator rng;
+    test_character_sexuality(config, rng);
   }
   catch (std::exception const& ex)
   {
