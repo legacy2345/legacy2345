@@ -18,10 +18,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-noinst_LTLIBRARIES = liblegacyworld.la
+noinst_LTLIBRARIES = liblegacyworld.la libnoise.la
+
+libnoise_la_SOURCES = \
+  ${top_srcdir}/legacy/3rd_party/FastNoise/FastNoise.h ${top_srcdir}/legacy/3rd_party/FastNoise/FastNoise.cpp
+
+libnoise_la_CPPFLAGS = \
+  -I${top_srcdir} \
+  -I${top_srcdir}/legacy/3rd_party
+
+libnoise_la_CXXFLAGS = \
+  $(AM_CXXFLAGS) \
+  -Wno-strict-aliasing -Wno-maybe-uninitialized -Wno-unused-function
 
 liblegacyworld_la_SOURCES = \
-  ${top_srcdir}/legacy/3rd_party/FastNoise/FastNoise.h ${top_srcdir}/legacy/3rd_party/FastNoise/FastNoise.cpp \
   cell.h \
   cellcache.h \
   map.h              map.cpp \
@@ -33,3 +43,7 @@ liblegacyworld_la_SOURCES = \
 liblegacyworld_la_CPPFLAGS = \
   -I${top_srcdir} \
   -I${top_srcdir}/legacy/3rd_party
+
+liblegacyworld_la_LIBADD = \
+  libnoise.la
+

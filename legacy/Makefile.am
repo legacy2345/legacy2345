@@ -18,6 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-SUBDIRS = core world tests
+SUBDIRS = core character world tests
 
 EXTRA_DIST = 3rd_party
