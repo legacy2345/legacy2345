@@ -40,6 +40,7 @@ LT_INIT
 
 # Check compiler support
 legacy_save_cxxflags="$CXXFLAGS"
+
 CXXFLAGS="$CXXFLAGS -fvisibility=hidden"
 AC_CACHE_CHECK([if ]$CXX[ supports -fvisibility-hidden],
                [legacy_cv_cxx_flag_visibility_hidden],
@@ -49,15 +50,24 @@ AC_CACHE_CHECK([if ]$CXX[ supports -fvisibility-hidden],
 if test x$legacy_cv_cxx_flag_visibility_hidden = xyes; then
   AM_CXXFLAGS="-fvisibility=hidden $AM_CXXFLAGS"
 fi
-CXXFLAGS="$legacy_save_cxxflags"
-AC_CACHE_CHECK([if ]$CXX[ supports -std=c++11],
-               [legacy_cv_cxx_std_cxx11],
-               AC_COMPILE_IFELSE([AC_LANG_SOURCE([int i;])],
-                                 [legacy_cv_cxx_std_cxx11=yes],
-                                 [AC_MSG_FAILURE([C++11 support is required])]))
-if test x$legacy_cv_cxx_std_cxx11 = xyes; then
-  AM_CXXFLAGS="-std=c++11 $AM_CXXFLAGS"
+
+CXXFLAGS="$legacy_save_cxxflags -std=c++14"
+AC_CACHE_CHECK([if ]$CXX[ supports -std=c++14],
+  [legacy_cv_cxx_std_cxx14],
+  AC_COMPILE_IFELSE(
+    [AC_LANG_SOURCE([
+       #if __cplusplus < 201402L
+       # error C++14 support is required
+       #endif
+    ])],
+    [legacy_cv_cxx_std_cxx14=yes],
+    [AC_MSG_FAILURE([C++14 support is required])]
+  )
+)
+if test x$legacy_cv_cxx_std_cxx14 = xyes; then
+  AM_CXXFLAGS="-std=c++14 $AM_CXXFLAGS"
 fi
+
 CXXFLAGS="$legacy_save_cxxflags"
 
 # Checks for required external packages
