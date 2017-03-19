@@ -2,7 +2,7 @@
 # @file legacy/world/Makefile.am
 # @brief automake recipe for Legacy world submodule
 #
-# Copyright 2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
+# Copyright 2016-2017 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+
+SUBDIRS = . tests
 
 noinst_LTLIBRARIES = liblegacyworld.la libnoise.la
 

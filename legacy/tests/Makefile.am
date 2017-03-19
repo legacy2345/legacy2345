@@ -1,8 +1,8 @@
 #
 # @file legacy/tests/Makefile.am
-# @brief automake recipe for Legacy tests
+# @brief automake recipe for Legacy integration tests
 #
-# Copyright 2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
+# Copyright 2016-2017 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,4 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-SUBDIRS = core character world
-
-EXTRA_DIST = 3rd_party
 
