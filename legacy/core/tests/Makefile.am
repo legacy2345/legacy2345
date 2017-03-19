@@ -1,8 +1,8 @@
 #
-# @file legacy/tests/character/Makefile.am
-# @brief automake recipe for Legacy character submodule tests
+# @file legacy/core/tests/Makefile.am
+# @brief automake recipe for Legacy core submodule tests
 #
-# Copyright 2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
+# Copyright 2016-107 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,19 +18,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-check_PROGRAMS = test_character
+check_PROGRAMS = test_core
 
-test_character_SOURCES = \
-  test_character.cpp \
-  test_name_generator.cpp \
-  test_sexuality.cpp
+test_core_SOURCES = \
+  test_core.cpp \
+  test_random.cpp
 
-test_character_CPPFLAGS = \
+test_core_CPPFLAGS = \
   -I$(top_srcdir) \
-  -I$(top_srcdir)/legacy/tests/3rd_party
+  -I$(top_srcdir)/legacy/3rd_party
 
-test_character_LDADD = \
-  ${top_builddir}/legacy/character/liblegacycharacter.la \
+test_core_LDADD = \
   ${top_builddir}/legacy/core/liblegacycore.la
 
 TESTS = $(check_PROGRAMS)
