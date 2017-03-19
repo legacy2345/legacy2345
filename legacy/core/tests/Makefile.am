@@ -22,6 +22,7 @@ check_PROGRAMS = test_core
 
 test_core_SOURCES = \
   test_core.cpp \
+  test_config.cpp \
   test_random.cpp
 
 test_core_CPPFLAGS = \
