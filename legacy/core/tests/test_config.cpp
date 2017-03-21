@@ -202,5 +202,36 @@ SCENARIO("setting and retrieving values from a Config object")
       }
     }
   }
+
+  GIVEN("A default-constructed Config object with an int value")
+  {
+    int original_value = 1;
+    int new_value = 2;
+    Legacy::Core::Config config;
+    config.set("tag", original_value);
+
+    WHEN("an attempt is made to add another value with the same tag and same type")
+    {
+      config.set("tag", new_value);
+      THEN("the new value is returned.")
+      {
+        REQUIRE(config.get<int>("tag") == new_value);
+      }
+    }
+  }
+
+  GIVEN("A default-constructed Config object with an int value")
+  {
+    Legacy::Core::Config config;
+    config.set("tag", 1);
+
+    WHEN("an attempt is made to add another value with the same tag but a different type")
+    {
+      THEN("a std::logic_error exception is thrown.")
+      {
+        REQUIRE_THROWS_AS(config.set("tag", 1.0), std::logic_error);
+      }
+    }
+  }
 }
 

@@ -52,9 +52,15 @@ get(std::string const& tag, int default_value)
 template<> void Config::
 set(std::string const& tag, int value)
 {
+  if (double_values_.find(tag) != double_values_.end()
+    || string_values_.find(tag) != string_values_.end()
+    || stringlist_values_.find(tag) != stringlist_values_.end())
+  {
+    throw std::logic_error("invalid config type, expected 'int'");
+  }
+
   int_values_[tag] = value;
 }
-
 
 
 template<> double Config::
@@ -80,6 +86,12 @@ get(std::string const& tag, double default_value)
 template<> void Config::
 set(std::string const& tag, double value)
 {
+  if (int_values_.find(tag) != int_values_.end()
+    || string_values_.find(tag) != string_values_.end()
+    || stringlist_values_.find(tag) != stringlist_values_.end())
+  {
+    throw std::logic_error("invalid config type, expected 'double'");
+  }
   double_values_[tag] = value;
 }
 
@@ -107,6 +119,13 @@ get(std::string const& tag, std::string default_value)
 template<> void Config::
 set(std::string const& tag, std::string value)
 {
+  if (int_values_.find(tag) != int_values_.end()
+    || double_values_.find(tag) != double_values_.end()
+    || stringlist_values_.find(tag) != stringlist_values_.end())
+  {
+    throw std::logic_error("invalid config type, expected 'string'");
+  }
+
   string_values_[tag] = value;
 }
 
@@ -134,6 +153,13 @@ get(std::string const& tag, StringList default_value)
 template<> void Config::
 set(std::string const& tag, StringList value)
 {
+  if (int_values_.find(tag) != int_values_.end()
+    || double_values_.find(tag) != double_values_.end()
+    || string_values_.find(tag) != string_values_.end())
+  {
+    throw std::logic_error("invalid config type, expected 'StringList'");
+  }
+
   stringlist_values_[tag] = value;
 }
 
