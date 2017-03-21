@@ -49,6 +49,14 @@ get(std::string const& tag, int default_value)
 }
 
 
+template<> void Config::
+set(std::string const& tag, int value)
+{
+  int_values_[tag] = value;
+}
+
+
+
 template<> double Config::
 get(std::string const& tag)
 {
@@ -66,6 +74,13 @@ get(std::string const& tag, double default_value)
     it = p.first;
   }
   return it->second;
+}
+
+
+template<> void Config::
+set(std::string const& tag, double value)
+{
+  double_values_[tag] = value;
 }
 
 
@@ -89,6 +104,13 @@ get(std::string const& tag, std::string default_value)
 }
 
 
+template<> void Config::
+set(std::string const& tag, std::string value)
+{
+  string_values_[tag] = value;
+}
+
+
 template<> std::vector<std::string> Config::
 get(std::string const& tag)
 {
@@ -97,7 +119,7 @@ get(std::string const& tag)
 
 
 template<> std::vector<std::string> Config::
-get(std::string const& tag, std::vector<std::string> default_value)
+get(std::string const& tag, StringList default_value)
 {
   auto it = stringlist_values_.find(tag);
   if (it == std::end(stringlist_values_))
@@ -106,6 +128,13 @@ get(std::string const& tag, std::vector<std::string> default_value)
     it = p.first;
   }
   return it->second;
+}
+
+
+template<> void Config::
+set(std::string const& tag, StringList value)
+{
+  stringlist_values_[tag] = value;
 }
 
 } // namespace Core

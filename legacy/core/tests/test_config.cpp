@@ -28,9 +28,9 @@ using std::string;
 using Legacy::Core::StringList;
 
 
-SCENARIO("default constructed config object")
+SCENARIO("setting and retrieving values from a Config object")
 {
-  GIVEN("A default-constructed config object")
+  GIVEN("A default-constructed config object, never modified")
   {
     Legacy::Core::Config config;
 
@@ -38,7 +38,7 @@ SCENARIO("default constructed config object")
     {
       THEN("it throws an out_of_range exception")
       {
-        CHECK_THROWS_AS(config.get<int>("no such tag"), out_of_range);
+        REQUIRE_THROWS_AS(config.get<int>("no such tag"), out_of_range);
       }
     }
 
@@ -54,7 +54,7 @@ SCENARIO("default constructed config object")
     {
       THEN("it throws an out_of_range exception")
       {
-        CHECK_THROWS_AS(config.get<double>("no such tag"), out_of_range);
+        REQUIRE_THROWS_AS(config.get<double>("no such tag"), out_of_range);
       }
     }
 
@@ -70,7 +70,7 @@ SCENARIO("default constructed config object")
     {
       THEN("it throws an out_of_range exception")
       {
-        CHECK_THROWS_AS(config.get<string>("no such tag"), out_of_range);
+        REQUIRE_THROWS_AS(config.get<string>("no such tag"), out_of_range);
       }
     }
 
@@ -86,7 +86,7 @@ SCENARIO("default constructed config object")
     {
       THEN("it throws an out_of_range exception")
       {
-        CHECK_THROWS_AS(config.get<StringList>("no such tag"), out_of_range);
+        REQUIRE_THROWS_AS(config.get<StringList>("no such tag"), out_of_range);
       }
     }
 
@@ -100,6 +100,107 @@ SCENARIO("default constructed config object")
       }
     }
 
+
+  }
+
+  GIVEN("A default-constructed config object with some int values set")
+  {
+    int test_int_value = 17;
+    int not_test_int_value = 91;
+    string test_int_tag = "some tag";
+
+    Legacy::Core::Config config;
+    config.set(test_int_tag, test_int_value);
+
+    WHEN("the simple get() is called")
+    {
+      THEN("it returns the same value as was set")
+      {
+        REQUIRE(config.get<int>(test_int_tag) == test_int_value);
+      }
+    }
+    WHEN("the get() with default is called")
+    {
+      THEN("it returns the same value as was set and not the default")
+      {
+        REQUIRE(config.get<int>(test_int_tag, not_test_int_value) == test_int_value);
+      }
+    }
+  }
+
+  GIVEN("A default-constructed config object with some double values set")
+  {
+    double test_double_value = 17.0;
+    double not_test_double_value = 91.0;
+    string test_double_tag = "some tag";
+
+    Legacy::Core::Config config;
+    config.set(test_double_tag, test_double_value);
+
+    WHEN("the simple get() is called")
+    {
+      THEN("it returns the same value as was set")
+      {
+        REQUIRE(config.get<double>(test_double_tag) == test_double_value);
+      }
+    }
+    WHEN("the get() with default is called")
+    {
+      THEN("it returns the same value as was set and not the default")
+      {
+        REQUIRE(config.get<double>(test_double_tag, not_test_double_value) == test_double_value);
+      }
+    }
+  }
+
+  GIVEN("A default-constructed config object with some string values set")
+  {
+    string test_string_value = "seventeem";
+    string not_test_string_value = "ninety one";
+    string test_string_tag = "some tag";
+
+    Legacy::Core::Config config;
+    config.set(test_string_tag, test_string_value);
+
+    WHEN("the simple get() is called")
+    {
+      THEN("it returns the same value as was set")
+      {
+        REQUIRE(config.get<string>(test_string_tag) == test_string_value);
+      }
+    }
+    WHEN("the get() with default is called")
+    {
+      THEN("it returns the same value as was set and not the default")
+      {
+        REQUIRE(config.get<string>(test_string_tag, not_test_string_value) == test_string_value);
+      }
+    }
+  }
+
+  GIVEN("A default-constructed config object with some StringList values set")
+  {
+    StringList test_stringlist_value = { "seven", "ten" };
+    StringList not_test_stringlist_value = { "ninety", "one" };
+    string test_stringlist_tag = "some tag";
+
+    Legacy::Core::Config config;
+    config.set(test_stringlist_tag, test_stringlist_value);
+
+    WHEN("the simple get() is called")
+    {
+      THEN("it returns the same value as was set")
+      {
+        REQUIRE(config.get<StringList>(test_stringlist_tag) == test_stringlist_value);
+      }
+    }
+    WHEN("the get() with default is called")
+    {
+      THEN("it returns the same value as was set and not the default")
+      {
+        REQUIRE(config.get<StringList>(test_stringlist_tag, not_test_stringlist_value) == test_stringlist_value);
+      }
+    }
   }
 }
 

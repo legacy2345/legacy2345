@@ -54,6 +54,9 @@ public:
   template<typename T> T
   get(std::string const& tag, T default_value);
 
+  template<typename T> void
+  set(std::string const& tag, T value);
+
 private:
   std::map<std::string, int>         int_values_;
   std::map<std::string, double>      double_values_;
