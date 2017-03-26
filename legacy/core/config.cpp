@@ -1,3 +1,4 @@
+#include <iostream>
 /**
  * @file legacy/core/config.cpp
  * @brief Implementation of the Legacy core config submodule.
@@ -20,7 +21,11 @@
  */
 #include "legacy/core/config.h"
 
+#include <algorithm>
 #include <iterator>
+#include "legacy/core/config_paths.h"
+#include <stdlib.h>
+#include <unistd.h>
 #include <utility>
 
 
@@ -29,10 +34,31 @@ namespace Legacy
 namespace Core
 {
 
-Config::
-Config(StringList const& argv)
+namespace
 {
-}
+  StringList
+  generate_data_paths()
+  {
+    StringList data_paths;
+
+    // a subdirectory of the current working directory called 'data', for testing
+    char* cwd = ::getcwd(NULL, 0);
+    data_paths.emplace_back(canonicalize_path(cwd) + "data/");
+    ::free(cwd);
+
+    // user data
+    data_paths.emplace_back(append_app_dir_to_path(get_env_or_default("XDG_CONFIG_HOME",
+                                                                      get_home_dir()+"/.config")));
+
+    // system data
+    StringList xdg_data_paths;
+    parse_path_into_strings(get_env_or_default("XDG_CONFIG_DIRS", "/etc/xdg"), xdg_data_paths);
+    std::transform(xdg_data_paths.begin(), xdg_data_paths.end(),
+                   std::back_inserter(data_paths),
+                   append_app_dir_to_path);
+    return data_paths;
+  }
+} // anonymous namespace
 
 
 template<> int Config::
@@ -168,6 +194,13 @@ set(std::string const& tag, StringList value)
 
   stringlist_values_[tag] = value;
 }
+
+Config::
+Config(StringList const& argv)
+{
+  this->set("data_paths", generate_data_paths());
+}
+
 
 } // namespace Core
 } // namespace Legacy

@@ -246,7 +246,7 @@ SCENARIO("Populating a config object")
       Legacy::Core::Config config(argv);
       THEN("there is at least a data_path config value")
       {
-        REQUIRE(config.get<StringList>("data_path").size() > 0);
+        REQUIRE(config.get<StringList>("data_paths").size() > 0);
       }
     }
   }
