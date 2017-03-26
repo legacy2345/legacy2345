@@ -206,7 +206,7 @@ SCENARIO("parsing a colon-separated pathlist into a StringList")
   GIVEN("a pathlist with two entries")
   {
     std::string pathlist = path_1 + ":" + path_2;
-    WHEN("parse_path_into_strings() is called")
+    WHEN("parse_path_into_strings() is called on an empty StringList")
     {
       StringList paths;
       parse_path_into_strings(pathlist, paths);
@@ -215,6 +215,18 @@ SCENARIO("parsing a colon-separated pathlist into a StringList")
         REQUIRE(paths.size() == 2);
         REQUIRE(paths[0] == path_1);
         REQUIRE(paths[1] == path_2);
+      }
+    }
+    WHEN("parse_path_into_strings() is called on a StringList with one entry")
+    {
+      StringList paths = { "/already/there" };
+      parse_path_into_strings(pathlist, paths);
+      THEN("the resulting StringList should have two entries.")
+      {
+        REQUIRE(paths.size() == 3);
+        REQUIRE(paths[0] == "/already/there");
+        REQUIRE(paths[1] == path_1);
+        REQUIRE(paths[2] == path_2);
       }
     }
   }
