@@ -29,6 +29,12 @@ namespace Legacy
 namespace Core
 {
 
+Config::
+Config(StringList const& argv)
+{
+}
+
+
 template<> int Config::
 get(std::string const& tag)
 {

@@ -48,6 +48,8 @@ using StringList = std::vector<std::string>;
 class Config
 {
 public:
+  Config(StringList const& argv = StringList());
+
   template<typename T> T
   get(std::string const& tag);
 

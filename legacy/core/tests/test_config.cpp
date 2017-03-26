@@ -1,6 +1,6 @@
 /**
  * @file legacy/core/tests/test_config.cpp
- * @brief Tests for the Legacy config random unit.
+ * @brief Tests for the Legacy config unit.
  */
 
 /*
@@ -235,3 +235,19 @@ SCENARIO("setting and retrieving values from a Config object")
   }
 }
 
+SCENARIO("Populating a config object")
+{
+  GIVEN("an empty set of command-line arguments")
+  {
+    StringList argv;
+
+    WHEN("a Config object is constructed from them")
+    {
+      Legacy::Core::Config config(argv);
+      THEN("there is at least a data_path config value")
+      {
+        REQUIRE(config.get<StringList>("data_path").size() > 0);
+      }
+    }
+  }
+}
