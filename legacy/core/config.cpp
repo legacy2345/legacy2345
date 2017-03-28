@@ -1,4 +1,3 @@
-#include <iostream>
 /**
  * @file legacy/core/config.cpp
  * @brief Implementation of the Legacy core config submodule.
@@ -37,6 +36,28 @@ namespace Core
 namespace
 {
   StringList
+  generate_config_paths()
+  {
+    StringList config_paths;
+
+    char* cwd = ::getcwd(NULL, 0);
+    config_paths.emplace_back(canonicalize_path(cwd));
+    ::free(cwd);
+
+    // user config
+    config_paths.emplace_back(append_app_dir_to_path(get_env_or_default("XDG_CONFIG_HOME",
+                                                                        get_home_dir()+"/.config")));
+
+    // system config
+    StringList xdg_config_paths;
+    parse_path_into_strings(get_env_or_default("XDG_CONFIG_DIRS", "/etc/xdg"), xdg_config_paths);
+    std::transform(xdg_config_paths.begin(), xdg_config_paths.end(),
+                   std::back_inserter(config_paths),
+                   append_app_dir_to_path);
+    return config_paths;
+  }
+
+  StringList
   generate_data_paths()
   {
     StringList data_paths;
@@ -47,12 +68,12 @@ namespace
     ::free(cwd);
 
     // user data
-    data_paths.emplace_back(append_app_dir_to_path(get_env_or_default("XDG_CONFIG_HOME",
-                                                                      get_home_dir()+"/.config")));
+    data_paths.emplace_back(append_app_dir_to_path(get_env_or_default("XDG_DATA_HOME",
+                                                                      get_home_dir()+"/.local/share")));
 
     // system data
     StringList xdg_data_paths;
-    parse_path_into_strings(get_env_or_default("XDG_CONFIG_DIRS", "/etc/xdg"), xdg_data_paths);
+    parse_path_into_strings(get_env_or_default("XDG_DATA_DIRS", " /usr/local/share/:/usr/share/"), xdg_data_paths);
     std::transform(xdg_data_paths.begin(), xdg_data_paths.end(),
                    std::back_inserter(data_paths),
                    append_app_dir_to_path);
@@ -198,6 +219,7 @@ set(std::string const& tag, StringList value)
 Config::
 Config(StringList const& argv)
 {
+  this->set("config_paths", generate_config_paths());
   this->set("data_paths", generate_data_paths());
 }
 
