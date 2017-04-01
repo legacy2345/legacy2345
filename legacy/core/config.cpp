@@ -21,6 +21,7 @@
 #include "legacy/core/config.h"
 
 #include <algorithm>
+#include <iostream>
 #include <iterator>
 #include "legacy/core/config_paths.h"
 #include <stdlib.h>
@@ -217,9 +218,33 @@ set(std::string const& tag, StringList value)
 }
 
 Config::
-Config(StringList const& argv)
+Config(StringList const& args)
 {
-  this->set("config_paths", generate_config_paths());
+  std::string config_file_name;
+
+  for (auto it = args.begin(); it != args.end(); ++it)
+  {
+    if (*it == "--config" || *it == "-f")
+    {
+      auto opt = *it++;
+      if (it == args.end())
+        throw std::runtime_error("missing argument for " + opt);
+      config_file_name = *it;
+    }
+    else
+    {
+      std::cerr << "unknown option '"<< *it << "'\n";
+    }
+  }
+
+  auto config_paths = generate_config_paths();
+  std::for_each(config_paths.crbegin(), config_paths.crend(),
+    [](std::string const& path)
+    {
+      std::cerr << "==smw> processing path '" << path << "'\n";
+    }
+  );
+
   this->set("data_paths", generate_data_paths());
 }
 

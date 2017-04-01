@@ -24,6 +24,7 @@ noinst_LTLIBRARIES = liblegacycore.la
 
 liblegacycore_la_SOURCES = \
   config.h        config.cpp \
+  config_file.h   config_file.cpp \
   config_paths.h  config_paths.cpp \
   random.h        random.cpp
 
