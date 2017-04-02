@@ -24,6 +24,7 @@ test_core_SOURCES = \
   test_core.cpp \
   test_config.cpp \
   test_config_paths.cpp \
+  test_filesystem.cpp \
   test_random.cpp
 
 test_core_CPPFLAGS = \
