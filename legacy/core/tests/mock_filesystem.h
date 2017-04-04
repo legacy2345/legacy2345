@@ -1,6 +1,6 @@
 /**
- * @file legacy/core/config_paths.cpp
- * @brief Implementation of the Legacy core config paths submodule.
+ * @file legacy/core/test/mock_filesystem.h
+ * @brief Declaration of a mock Filesystem class.
  */
 /*
  * Copyright 2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
@@ -18,30 +18,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "legacy/core/config_paths.h"
+#ifndef LEGACY_CORE_TEST_MOCK_FILESYSTEM_H
+#define LEGACY_CORE_TEST_MOCK_FILESYSTEM_H
 
-#include <cstdlib>
-#include <cstring>
-#include <regex>
-#include <utility>
+#include "legacy/core/filesystem.h"
 
-
-std::string Legacy::Core::
-get_home_dir()
+namespace Legacy
 {
-  return std::getenv("HOME");
-}
-
-
-std::string Legacy::Core::
-get_env_or_default(std::string const& env_name, std::string const& default_value)
+namespace Core
 {
-  char const* env_value = std::getenv(env_name.c_str());
-  if (env_value && std::strlen(env_value))
-  {
-    return env_value;
-  }
-  return default_value;
-}
+namespace Tests
+{
 
+class MockFileSystem
+: public FileSystem
+{
+public:
+  ~MockFileSystem() override = default;
 
+  FileInfoOwningPtr
+  get_fileinfo(Path const& path) const override;
+};
+
+} // namespace Test
+} // namespace core
+} // namespace Legacy
+
+#endif /* LEGACY_CORE_TEST_MOCK_FILESYSTEM_H */

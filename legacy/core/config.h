@@ -31,6 +31,7 @@ namespace Legacy
 namespace Core
 {
 
+class FileSystem;
 
 /**
  * A collection of strings.
@@ -48,7 +49,17 @@ using StringList = std::vector<std::string>;
 class Config
 {
 public:
-  Config(StringList const& argv = StringList());
+
+  /**
+   * Initializes the configuration from command-line arguments and files.
+   *
+   * This is not an initializer and is not required to construct a valid Config
+   * object.  It's for setting up an initial configuration from values passed
+   * on the command line and set in config files, for which the loading order
+   * can be affected by the command-line arguments.
+   */
+  void
+  init(StringList const& argv, FileSystem const& fs);
 
   template<typename T> T
   get(std::string const& tag);

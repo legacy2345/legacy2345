@@ -21,7 +21,9 @@
 #ifndef LEGACY_CORE_FILESYSTEM_H
 #define LEGACY_CORE_FILESYSTEM_H
 
+#include <memory>
 #include <string>
+#include <vector>
 
 
 namespace Legacy
@@ -96,6 +98,59 @@ operator/(Path lhs, std::string const& rhs)
 {
   return lhs /= Path(rhs);
 }
+
+
+/**
+ * A(n) (ordered) collection of paths.
+ */
+using PathList = std::vector<Path>;
+
+/**
+ * Creates a PathList from a string containing a colon-separated list of
+ * filesystem paths.
+ */
+PathList
+create_pathlist_from_string(std::string const& path_string);
+
+
+/**
+ * A collection of information about a file object.
+ */
+class FileInfo
+{
+public:
+  virtual
+  ~FileInfo() = 0;
+  
+  virtual std::string
+  name() const = 0;
+
+  virtual bool
+  exists() const = 0;
+
+  virtual bool
+  is_readable() const = 0;
+
+  bool virtual
+  is_writable() const = 0;
+};
+
+using FileInfoOwningPtr = std::unique_ptr<FileInfo>;
+
+
+/**
+ * An abstract base class for filesystem wrappers.
+ */
+class FileSystem
+{
+public:
+  virtual
+  ~FileSystem() = 0;
+
+  virtual FileInfoOwningPtr
+  get_fileinfo(Path const& path) const = 0;
+};
+
 
 } // namespace Core
 } // namespace Legacy

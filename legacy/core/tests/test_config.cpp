@@ -21,6 +21,7 @@
  */
 #include "catch.hpp"
 #include "legacy/core/config.h"
+#include "legacy/core/tests/mock_filesystem.h"
 #include <stdexcept>
 
 using std::out_of_range;
@@ -240,13 +241,14 @@ SCENARIO("Populating a config object")
   GIVEN("an empty set of command-line arguments")
   {
     StringList argv;
+    Legacy::Core::Config config;
+    Legacy::Core::Tests::MockFileSystem mock_filesystem;
 
-    WHEN("a Config object is constructed from them")
+    WHEN("a Config object is init from them")
     {
-      Legacy::Core::Config config(argv);
-      THEN("there is at least a data_path config value")
+      config.init(argv, mock_filesystem);
+      THEN("it better not throw an exception")
       {
-        REQUIRE(config.get<StringList>("data_paths").size() > 0);
       }
     }
   }

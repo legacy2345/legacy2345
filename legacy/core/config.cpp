@@ -24,6 +24,7 @@
 #include <iostream>
 #include <iterator>
 #include "legacy/core/config_paths.h"
+#include "legacy/core/filesystem.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <utility>
@@ -36,48 +37,56 @@ namespace Core
 
 namespace
 {
-  StringList
+  PathList
   generate_config_paths()
   {
-    StringList config_paths;
+    PathList config_paths;
 
     char* cwd = ::getcwd(NULL, 0);
-    config_paths.emplace_back(canonicalize_path(cwd));
-    ::free(cwd);
+    if (cwd)
+    {
+      config_paths.push_back(Path(cwd));
+      ::free(cwd);
+    }
 
     // user config
-    config_paths.emplace_back(append_app_dir_to_path(get_env_or_default("XDG_CONFIG_HOME",
-                                                                        get_home_dir()+"/.config")));
+    Path user_config(get_env_or_default("XDG_CONFIG_HOME", get_home_dir()+"/.config"));
+    config_paths.push_back(user_config / app_dir);
 
     // system config
-    StringList xdg_config_paths;
-    parse_path_into_strings(get_env_or_default("XDG_CONFIG_DIRS", "/etc/xdg"), xdg_config_paths);
-    std::transform(xdg_config_paths.begin(), xdg_config_paths.end(),
+    std::string xdg_config_path_string = get_env_or_default("XDG_CONFIG_DIRS", "/etc/xdg");
+    PathList xdg_config_paths = create_pathlist_from_string(xdg_config_path_string);
+    std::transform(std::begin(xdg_config_paths), std::end(xdg_config_paths),
                    std::back_inserter(config_paths),
-                   append_app_dir_to_path);
+                   [](Path const& path) { return path / app_dir; });
+
     return config_paths;
   }
 
-  StringList
+  PathList
   generate_data_paths()
   {
-    StringList data_paths;
+    PathList data_paths;
 
     // a subdirectory of the current working directory called 'data', for testing
     char* cwd = ::getcwd(NULL, 0);
-    data_paths.emplace_back(canonicalize_path(cwd) + "data/");
-    ::free(cwd);
+    if (cwd)
+    {
+      data_paths.push_back(Path(cwd));
+      ::free(cwd);
+    }
 
     // user data
-    data_paths.emplace_back(append_app_dir_to_path(get_env_or_default("XDG_DATA_HOME",
-                                                                      get_home_dir()+"/.local/share")));
+    Path user_data_path(get_env_or_default("XDG_DATA_HOME", get_home_dir()+"/.local/share"));
+    data_paths.push_back(user_data_path / app_dir);
 
-    // system data
-    StringList xdg_data_paths;
-    parse_path_into_strings(get_env_or_default("XDG_DATA_DIRS", " /usr/local/share/:/usr/share/"), xdg_data_paths);
-    std::transform(xdg_data_paths.begin(), xdg_data_paths.end(),
+    // XDG data paths
+    std::string xdg_data_path_string = get_env_or_default("XDG_DATA_DIRS", " /usr/local/share/:/usr/share/");
+    PathList xdg_data_paths = create_pathlist_from_string(xdg_data_path_string);
+    std::transform(std::begin(xdg_data_paths), std::end(xdg_data_paths),
                    std::back_inserter(data_paths),
-                   append_app_dir_to_path);
+                   [](Path const& path) { return path / app_dir; });
+
     return data_paths;
   }
 } // anonymous namespace
@@ -217,8 +226,9 @@ set(std::string const& tag, StringList value)
   stringlist_values_[tag] = value;
 }
 
-Config::
-Config(StringList const& args)
+
+void Config::
+init(StringList const& args, FileSystem const& fs)
 {
   std::string config_file_name;
 
@@ -239,13 +249,20 @@ Config(StringList const& args)
 
   auto config_paths = generate_config_paths();
   std::for_each(config_paths.crbegin(), config_paths.crend(),
-    [](std::string const& path)
+    [this, &fs](Path const& path)
     {
-      std::cerr << "==smw> processing path '" << path << "'\n";
+      std::cerr << "==smw> processing path '" << path.string();
+      auto file_info = fs.get_fileinfo(path / "config.txt");
+      if (file_info->exists() && file_info->is_readable())
+      {
+        std::cerr << "... readable " << file_info->name() << " found";
+      }
+      std::cerr << "\n";
     }
   );
 
-  this->set("data_paths", generate_data_paths());
+  /*this->set("data_paths", generate_data_paths());*/
+  PathList data_path = generate_data_paths();
 }
 
 

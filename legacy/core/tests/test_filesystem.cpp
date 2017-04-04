@@ -168,3 +168,88 @@ SCENARIO("appending paths")
     }
   }
 }
+
+SCENARIO("parsing a colon-separated pathlist_string into a PathList")
+{
+  std::string path_1 = "/home/gflingus";
+  std::string path_2 = "/usr/share/data";
+  GIVEN("an empty pathlist_string")
+  {
+    std::string pathlist_string = "";
+    WHEN("a PathList is created from it")
+    {
+      PathList path_list = create_pathlist_from_string(pathlist_string);
+      THEN("the resulting PathList should be empty.")
+      {
+        REQUIRE(path_list.size() == 0);
+      }
+    }
+  }
+  GIVEN("a pathlist_string with one entry, no colons")
+  {
+    std::string pathlist_string = path_1;
+    WHEN("a PathList is created from it")
+    {
+      PathList path_list = create_pathlist_from_string(pathlist_string);
+      THEN("the resulting PathList should have one entry equal to the original string.")
+      {
+        REQUIRE(path_list.size() == 1);
+        REQUIRE(path_list[0] == pathlist_string);
+      }
+    }
+  }
+  GIVEN("a pathlist_string with one entry, one colon at the beginning")
+  {
+    std::string pathlist_string = ":" + path_1;
+    WHEN("a PathList is created from it")
+    {
+      PathList path_list = create_pathlist_from_string(pathlist_string);
+      THEN("the resulting PathList should have one entry.")
+      {
+        REQUIRE(path_list.size() == 1);
+        REQUIRE(path_list[0] == path_1);
+      }
+    }
+  }
+  GIVEN("a pathlist_string with one entry, one colon at the end")
+  {
+    std::string pathlist_string = path_1 + ":";
+    WHEN("a PathList is created from it")
+    {
+      PathList path_list = create_pathlist_from_string(pathlist_string);
+      THEN("the resulting PathList should have one entry.")
+      {
+        REQUIRE(path_list.size() == 1);
+        REQUIRE(path_list[0] == path_1);
+      }
+    }
+  }
+  GIVEN("a pathlist_string with two entries")
+  {
+    std::string pathlist_string = path_1 + ":" + path_2;
+    WHEN("a PathList is created from it")
+    {
+      PathList path_list = create_pathlist_from_string(pathlist_string);
+      THEN("the resulting PathList should have two entries.")
+      {
+        REQUIRE(path_list.size() == 2);
+        REQUIRE(path_list[0] == path_1);
+        REQUIRE(path_list[1] == path_2);
+      }
+    }
+  }
+  GIVEN("a pathlist_string with two entries and two colons")
+  {
+    std::string pathlist_string = path_1 + "::" + path_2;
+    WHEN("a PathList is created from it")
+    {
+      PathList path_list = create_pathlist_from_string(pathlist_string);
+      THEN("the resulting PathList should have two entries.")
+      {
+        REQUIRE(path_list.size() == 2);
+        REQUIRE(path_list[0] == path_1);
+        REQUIRE(path_list[1] == path_2);
+      }
+    }
+  }
+}

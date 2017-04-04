@@ -20,6 +20,11 @@
  */
 #include "legacy/core/filesystem.h"
 
+#include <algorithm>
+#include <iterator>
+#include <regex>
+
+
 namespace Legacy
 {
 namespace Core
@@ -100,6 +105,47 @@ operator/=(Path const& rhs)
   return *this;
 }
 
+PathList
+create_pathlist_from_string(std::string const& path_string)
+{
+  PathList pathlist;
+
+  auto start = std::begin(path_string);
+  auto finish = std::end(path_string);
+  if (start == finish)
+    return pathlist;
+
+  // Skip any leading path separators.
+  while (*start == ':')
+    start++;
+
+  // Magic for the uninitiated: this chunk of code will add a Path to
+  // pathlist for every chunk of the path_string that is *not* a path
+  // separator.
+  //
+  // Yeah, I could just walk the string using two pointers or walk using two
+  // indexes and the substr() operator.  Where is the elegance in that?
+  //
+  std::regex re(":+");
+  std::transform(std::sregex_token_iterator(start, finish, re, -1),
+                 std::sregex_token_iterator(),
+                 std::back_inserter(pathlist),
+                 [](std::sregex_token_iterator::value_type const& sm)
+                 {
+                   return Path(std::string(sm));
+                 });
+
+  return pathlist;
+}
+
+
+FileInfo::
+~FileInfo()
+{ }
+
+FileSystem::
+~FileSystem()
+{ }
 
 } // namespace Core
 } // namespace Legacy

@@ -38,8 +38,7 @@ namespace Legacy
 namespace Core
 {
 
-const std::string path_sep = "/";
-const std::string app_dir = PACKAGE + path_sep;
+const std::string app_dir = PACKAGE;
 
 /**
  * Gets the current user's "home" directory path.
@@ -48,30 +47,11 @@ std::string
 get_home_dir();
 
 /**
- * Makes sure the path always ends in a path separator.
- */
-std::string&&
-canonicalize_path(std::string path);
-
-/**
- * Appends the apps-specific directory to a path if it's not already there.
- */
-std::string&&
-append_app_dir_to_path(std::string path);
-
-/**
  * Gets the value of an environment variable, with a default if that variable is
  * not set or is empty.
  */
 std::string
 get_env_or_default(std::string const& env_name, std::string const& default_value);
-
-/**
- * Splits a colon-separated pathlist string into individual path strings and
- * appends them to the path_list.
- */
-void
-parse_path_into_strings(std::string const& paths, StringList& path_list);
 
 } // namespace Core
 } // namespace Legacy
