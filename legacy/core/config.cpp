@@ -251,13 +251,11 @@ init(StringList const& args, FileSystem const& fs)
   std::for_each(config_paths_.crbegin(), config_paths_.crend(),
     [this, &fs](Path const& path)
     {
-      std::cerr << "==smw> processing path '" << path.string();
       auto file_info = fs.get_fileinfo(path / "config.txt");
       if (file_info->exists() && file_info->is_readable())
       {
-        std::cerr << "... readable " << file_info->name() << " found";
+        // looks for and load config file here
       }
-      std::cerr << "\n";
     }
   );
 
@@ -270,15 +268,8 @@ open_data_file(FileSystem const& fs, std::string const& data_file_name)
 {
   auto it = std::find_if(std::begin(data_paths_), std::end(data_paths_),
                           [&fs, &data_file_name](Path const& path) {
-                            std::cerr << "==smw> processing path '" << path.string();
                             auto file_info = fs.get_fileinfo(path / data_file_name);
-                            if (file_info->exists() && file_info->is_readable())
-                            {
-                              std::cerr << "... readable " << file_info->name() << " found";
-                              return true;
-                            }
-                            std::cerr << "\n";
-                            return false;
+                            return file_info->exists() && file_info->is_readable();
                           });
   if (it == std::end(data_paths_))
     return std::unique_ptr<std::istream>();
