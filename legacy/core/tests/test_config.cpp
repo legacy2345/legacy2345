@@ -236,19 +236,29 @@ SCENARIO("setting and retrieving values from a Config object")
   }
 }
 
-SCENARIO("Populating a config object")
+SCENARIO("Finding a data file.")
 {
   GIVEN("an empty set of command-line arguments")
   {
     StringList argv;
     Legacy::Core::Config config;
     Legacy::Core::Tests::MockFileSystem mock_filesystem;
+    config.init(argv, mock_filesystem);
 
-    WHEN("a Config object is init from them")
+    WHEN("a request is made to open a non-existent file")
     {
-      config.init(argv, mock_filesystem);
-      THEN("it better not throw an exception")
+      THEN("a null file pointer is returned.")
       {
+        auto pf = config.open_data_file(mock_filesystem, "non-existent");
+        REQUIRE(!pf);
+      }
+    }
+    WHEN("a request is made to open an existent, readable file")
+    {
+      THEN("a valid file pointer is returned.")
+      {
+        auto pf = config.open_data_file(mock_filesystem, "readable");
+        REQUIRE(pf);
       }
     }
   }

@@ -38,6 +38,9 @@ public:
 
   FileInfoOwningPtr
   get_fileinfo(Path const& path) const override;
+
+  std::unique_ptr<std::istream>
+  open_for_input(Path const&) const override;
 };
 
 } // namespace Test

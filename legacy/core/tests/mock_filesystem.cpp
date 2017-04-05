@@ -20,6 +20,9 @@
  */
 #include "legacy/core/tests/mock_filesystem.h"
 
+#include <sstream>
+
+
 namespace Legacy
 {
 namespace Core
@@ -33,7 +36,12 @@ class MockFileInfo
 public:
   MockFileInfo(Path const& path)
   : path_(path)
-  { }
+  {
+    if (name() == "non-existent")
+      exists_ = false;
+    if (name() == "writable")
+      is_writable_ = true;
+  }
 
   ~MockFileInfo() = default;
   
@@ -43,17 +51,20 @@ public:
 
   bool
   exists() const
-  { return true; }
+  { return exists_; }
 
   bool
   is_readable() const
-  { return true; }
+  { return is_readable_; }
 
   bool
   is_writable() const
-  { return false; }
+  { return is_writable_; }
 
   Path path_;
+  bool exists_ = true;
+  bool is_readable_ = true;
+  bool is_writable_ = false;
 };
 
 FileInfoOwningPtr MockFileSystem::
@@ -61,6 +72,13 @@ get_fileinfo(Path const& path) const
 {
   FileInfoOwningPtr file_info(new MockFileInfo(path));
   return file_info;
+}
+
+
+std::unique_ptr<std::istream> MockFileSystem::
+open_for_input(Path const&) const
+{
+  return std::unique_ptr<std::istream>(new std::istringstream("hello"));
 }
 
 

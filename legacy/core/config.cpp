@@ -247,8 +247,8 @@ init(StringList const& args, FileSystem const& fs)
     }
   }
 
-  auto config_paths = generate_config_paths();
-  std::for_each(config_paths.crbegin(), config_paths.crend(),
+  config_paths_ = generate_config_paths();
+  std::for_each(config_paths_.crbegin(), config_paths_.crend(),
     [this, &fs](Path const& path)
     {
       std::cerr << "==smw> processing path '" << path.string();
@@ -261,8 +261,28 @@ init(StringList const& args, FileSystem const& fs)
     }
   );
 
-  /*this->set("data_paths", generate_data_paths());*/
-  PathList data_path = generate_data_paths();
+  data_paths_ = generate_data_paths();
+}
+
+
+std::unique_ptr<std::istream> Config::
+open_data_file(FileSystem const& fs, std::string const& data_file_name)
+{
+  auto it = std::find_if(std::begin(data_paths_), std::end(data_paths_),
+                          [&fs, &data_file_name](Path const& path) {
+                            std::cerr << "==smw> processing path '" << path.string();
+                            auto file_info = fs.get_fileinfo(path / data_file_name);
+                            if (file_info->exists() && file_info->is_readable())
+                            {
+                              std::cerr << "... readable " << file_info->name() << " found";
+                              return true;
+                            }
+                            std::cerr << "\n";
+                            return false;
+                          });
+  if (it == std::end(data_paths_))
+    return std::unique_ptr<std::istream>();
+  return fs.open_for_input(*it / data_file_name);
 }
 
 

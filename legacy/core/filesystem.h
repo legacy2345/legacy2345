@@ -21,6 +21,7 @@
 #ifndef LEGACY_CORE_FILESYSTEM_H
 #define LEGACY_CORE_FILESYSTEM_H
 
+#include <istream>
 #include <memory>
 #include <string>
 #include <vector>
@@ -122,13 +123,13 @@ public:
   virtual
   ~FileInfo() = 0;
   
-  virtual std::string
+  std::string virtual
   name() const = 0;
 
-  virtual bool
+  bool virtual
   exists() const = 0;
 
-  virtual bool
+  bool virtual
   is_readable() const = 0;
 
   bool virtual
@@ -147,8 +148,11 @@ public:
   virtual
   ~FileSystem() = 0;
 
-  virtual FileInfoOwningPtr
+  FileInfoOwningPtr virtual
   get_fileinfo(Path const& path) const = 0;
+
+  std::unique_ptr<std::istream> virtual
+  open_for_input(Path const&) const = 0;
 };
 
 
