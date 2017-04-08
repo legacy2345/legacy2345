@@ -231,6 +231,7 @@ void Config::
 init(StringList const& args, FileSystem const& fs)
 {
   std::string config_file_name;
+  StringList  non_options;
 
   for (auto it = args.begin(); it != args.end(); ++it)
   {
@@ -241,9 +242,13 @@ init(StringList const& args, FileSystem const& fs)
         throw std::runtime_error("missing argument for " + opt);
       config_file_name = *it;
     }
-    else
+    else if ((*it)[0] == '-')
     {
       std::cerr << "unknown option '"<< *it << "'\n";
+    }
+    else
+    {
+      non_options.push_back(*it);
     }
   }
 
@@ -260,6 +265,7 @@ init(StringList const& args, FileSystem const& fs)
   );
 
   data_paths_ = generate_data_paths();
+  set<StringList>("cli-args", non_options);
 }
 
 

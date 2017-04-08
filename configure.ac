@@ -78,6 +78,7 @@ AC_CONFIG_FILES([legacy/world/Makefile])
 AC_CONFIG_FILES([legacy/world/tests/Makefile])
 AC_CONFIG_FILES([legacy/tests/Makefile])
 AC_CONFIG_FILES([tools/Makefile])
+AC_CONFIG_FILES([tools/core/Makefile])
 AC_CONFIG_FILES([tools/character/Makefile])
 AC_CONFIG_FILES([tools/world/Makefile])
 AC_OUTPUT
