@@ -23,7 +23,12 @@ SUBDIRS = . tests
 noinst_LTLIBRARIES = liblegacycore.la
 
 liblegacycore_la_SOURCES = \
-  random.h     random.cpp
+  config.h            config.cpp \
+  config_file.h       config_file.cpp \
+  config_paths.h      config_paths.cpp \
+  filesystem.h        filesystem.cpp \
+  posix_filesystem.h  posix_filesystem.cpp \
+  random.h            random.cpp
 
 liblegacycore_la_CPPFLAGS = \
   -I${top_srcdir} \

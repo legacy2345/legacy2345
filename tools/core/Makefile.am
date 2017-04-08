@@ -1,8 +1,8 @@
 #
-# @file tools/Makefile.am
-# @brief automake recipe for Legacy tools
+# @file tools/core/Makefile.am
+# @brief automake recipe for Legacy core tools
 #
-# Copyright 2011-2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
+# Copyright 2017 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,4 +18,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-SUBDIRS = core world character
+bin_PROGRAMS = \
+  find_data_file
+
+find_data_file_SOURCES = \
+  find_data_file.cpp
+
+find_data_file_CPPFLAGS = \
+  -I${top_srcdir}
+
+find_data_file_LDADD = \
+  ${top_builddir}/legacy/core/liblegacycore.la
