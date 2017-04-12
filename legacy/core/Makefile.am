@@ -27,6 +27,7 @@ liblegacycore_la_SOURCES = \
   config_file.h       config_file.cpp \
   config_paths.h      config_paths.cpp \
   filesystem.h        filesystem.cpp \
+  logger.h \
   posix_filesystem.h  posix_filesystem.cpp \
   random.h            random.cpp
 
