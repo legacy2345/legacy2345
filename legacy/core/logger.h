@@ -23,6 +23,8 @@
 
 #include <iosfwd>
 #include <fstream>
+#include <memory>
+#include <streambuf>
 
 
 namespace Legacy
@@ -30,6 +32,64 @@ namespace Legacy
 namespace Core
 {
 
+template<typename Char, typename Traits = std::char_traits<Char> >
+class DebugStreambuf
+: public std::basic_streambuf<Char, Traits>
+{
+public:
+  using traits_type = typename std::basic_streambuf<Char, Traits>::traits_type;
+  using int_type = typename std::basic_streambuf<Char, Traits>::int_type;
+
+public:
+  DebugStreambuf(std::basic_streambuf<Char, Traits>* real_buf);
+
+protected:
+  int_type overflow(int_type c = traits_type::eof());
+
+private:
+  DebugStreambuf(const DebugStreambuf&);            ///< unimplimented
+  DebugStreambuf& operator=(const DebugStreambuf&); ///< unimplimented
+
+
+  std::basic_streambuf<Char, Traits>* real_buf_;
+  bool                                bol_;
+};
+
+
+template<typename C, typename T>
+DebugStreambuf<C,T>::
+DebugStreambuf(std::basic_streambuf<C,T>* real_buf)
+: real_buf_(real_buf)
+, bol_(true)
+{ }
+
+
+template<typename C, typename T>
+typename DebugStreambuf<C,T>::int_type DebugStreambuf<C,T>::
+overflow(DebugStreambuf<C,T>::int_type c)
+{
+  int_type retval = traits_type::not_eof(c);
+  if (!traits_type::eq_int_type(c, traits_type::eof()))
+  {
+    if (bol_)
+    {
+      // Prepend a dummy character for now.
+      real_buf_->sputc('!');
+      bol_ = false;
+    }
+    // Send the real character out.
+    retval =  real_buf_->sputc(c);
+
+    // If the end-of-line was seen, reset the beginning-of-line indicator and
+    // the default log level.
+    if (traits_type::eq_int_type(c, traits_type::to_int_type('\n')))
+    {
+      bol_ = true;
+    }
+  }
+
+  return retval;
+}
 
 /**
  * An RAII object to redirect/restore the original stream buffer of an
@@ -67,10 +127,32 @@ public:
   StreamRedirector(std::ostream& stream, std::string const& filename)
   : StreambufRedirector(stream)
   , file_(filename)
-  { wrapped_ostream_.rdbuf(file_.rdbuf()); }
+  { 
+    wrapped_ostream_.rdbuf(file_.rdbuf());
+    wrapped_ostream_.setstate(file_.rdstate());
+  }
 
 private:
   std::ofstream file_;
+};
+
+
+/**
+ * An RAII object to convert an ostream to a debug stream.
+ */
+class DebugRedirector
+: public StreambufRedirector
+{
+public:
+  DebugRedirector(std::ostream& stream)
+  : StreambufRedirector(stream)
+  , debug_streambuf_(new DebugStreambuf<char>(wrapped_ostream_.rdbuf()))
+  { 
+    wrapped_ostream_.rdbuf(debug_streambuf_.get());
+  }
+
+private:
+  std::unique_ptr<DebugStreambuf<char>> debug_streambuf_;
 };
 
 

@@ -24,18 +24,19 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 using namespace Legacy::Core;
 
 
 SCENARIO("redirect stderr to a file")
 {
-  WHEN("stderr is redirected to a know-good file")
+  WHEN("stderr is redirected to a known-good file")
   {
     std::string logfile = "/tmp/garbage";
     std::string test_line = "line1";
     {
-      StreamRedirector log(std::cerr, "/tmp/garbage");
+      StreamRedirector log(std::cerr, logfile);
       std::cerr << test_line << "\n";
     }
 
@@ -48,4 +49,31 @@ SCENARIO("redirect stderr to a file")
       REQUIRE(line1 == test_line);
     }
   }
+
+  WHEN("stderr is redirected to a known-bad file")
+  {
+    std::string logfile = "/garbage/garbage";
+    std::string test_line = "line1";
+
+    StreamRedirector log(std::cerr, logfile);
+
+    THEN("the stream should be left in a bad state.")
+    {
+      REQUIRE(!std::cerr);
+    }
+  }
+}
+
+SCENARIO("convert an ostream to a debug stream")
+{
+  WHEN("a stringstream is converted to a debug stream")
+  {
+    std::string test_string = "valuable lessons";
+    std::ostringstream sstr;
+    THEN("writing to it is still a pass-through operation.")
+    {
+      sstr << test_string;
+      REQUIRE(sstr.str() == test_string);
+    }
+}
 }
