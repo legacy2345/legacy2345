@@ -64,7 +64,7 @@ private:
   { }
 
   friend LogTagSetter const
-  logTag(std::string const& tag);
+  log_tag(std::string const& tag);
 
 private:
   std::string const& tag_;
@@ -74,7 +74,7 @@ private:
  * IO manipulator function to set the log tag for a line.
  */
 inline LogTagSetter const
-logTag(std::string const& tag)
+log_tag(std::string const& tag)
 { return LogTagSetter(tag); }
 
 std::ostream&
@@ -147,7 +147,7 @@ overflow(DebugStreambuf<C,T>::int_type c)
       if (!tag_.empty())
       {
         real_buf_->sputn(tag_.c_str(), tag_.length());
-        real_buf_->sputc('-');
+        real_buf_->sputc(' ');
         tag_.clear();
       }
     }

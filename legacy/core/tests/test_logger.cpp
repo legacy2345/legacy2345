@@ -99,10 +99,10 @@ SCENARIO("convert an ostream to a debug stream")
     std::ostringstream sstr;
     DebugRedirector redirector(sstr);
 
-    sstr << logTag("spiff") << test_string;
+    sstr << log_tag("spiff") << test_string;
     THEN("an appropriate tag is set on the output.")
     {
-      REQUIRE(sstr.str() == "-I-spiff-"+test_string);
+      REQUIRE(sstr.str() == "-I-spiff "+test_string);
     }
   }
 }
