@@ -32,6 +32,59 @@ namespace Legacy
 namespace Core
 {
 
+/**
+ * Severity classifications of log messages.
+ */
+enum class LogLevel
+{
+  DEBUG    = 'D',
+  VERBOSE  = 'V',
+  INFO     = 'I',
+  WARNING  = 'W',
+  ERROR    = 'E',
+  FATAL    = 'F'
+};
+
+std::ostream&
+operator<<(std::ostream& ostr, LogLevel level);
+
+/**
+ * Helper class for setting a tag on the log messages.
+ */
+class LogTagSetter
+{
+public:
+  std::string const&
+  tag() const
+  { return tag_; }
+
+private:
+  LogTagSetter(std::string const& tag)
+  : tag_(tag)
+  { }
+
+  friend LogTagSetter const
+  logTag(std::string const& tag);
+
+private:
+  std::string const& tag_;
+};
+
+/**
+ * IO manipulator function to set the log tag for a line.
+ */
+inline LogTagSetter const
+logTag(std::string const& tag)
+{ return LogTagSetter(tag); }
+
+std::ostream&
+operator<<(std::ostream& ostr, LogTagSetter const lts);
+
+
+/**
+ * An adaptor to turn any stream into a special stream that formats log
+ * messages.
+ */
 template<typename Char, typename Traits = std::char_traits<Char> >
 class DebugStreambuf
 : public std::basic_streambuf<Char, Traits>
@@ -43,16 +96,26 @@ public:
 public:
   DebugStreambuf(std::basic_streambuf<Char, Traits>* real_buf);
 
+  void
+  set_level(LogLevel level)
+  { level_ = level; }
+
+  void
+  set_tag(std::string const& tag)
+  { tag_ = tag; }
+
 protected:
   int_type overflow(int_type c = traits_type::eof());
 
 private:
-  DebugStreambuf(const DebugStreambuf&);            ///< unimplimented
-  DebugStreambuf& operator=(const DebugStreambuf&); ///< unimplimented
+  DebugStreambuf(const DebugStreambuf&) = delete;
+  DebugStreambuf& operator=(const DebugStreambuf&) = delete;
 
 
   std::basic_streambuf<Char, Traits>* real_buf_;
   bool                                bol_;
+  LogLevel                            level_;
+  std::string                         tag_;
 };
 
 
@@ -61,6 +124,7 @@ DebugStreambuf<C,T>::
 DebugStreambuf(std::basic_streambuf<C,T>* real_buf)
 : real_buf_(real_buf)
 , bol_(true)
+, level_(LogLevel::INFO)
 { }
 
 
@@ -74,9 +138,20 @@ overflow(DebugStreambuf<C,T>::int_type c)
     if (bol_)
     {
       // Prepend a dummy character for now.
-      real_buf_->sputc('!');
+      real_buf_->sputc('-');
+      real_buf_->sputc(static_cast<C>(level_));
+      real_buf_->sputc('-');
       bol_ = false;
+      level_ = LogLevel::INFO;
+
+      if (!tag_.empty())
+      {
+        real_buf_->sputn(tag_.c_str(), tag_.length());
+        real_buf_->sputc('-');
+        tag_.clear();
+      }
     }
+
     // Send the real character out.
     retval =  real_buf_->sputc(c);
 

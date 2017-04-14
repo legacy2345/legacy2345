@@ -70,10 +70,39 @@ SCENARIO("convert an ostream to a debug stream")
   {
     std::string test_string = "valuable lessons";
     std::ostringstream sstr;
-    THEN("writing to it is still a pass-through operation.")
+    DebugRedirector redirector(sstr);
+    THEN("writing to it still has the original string as a line tail.")
     {
       sstr << test_string;
-      REQUIRE(sstr.str() == test_string);
+      std::string output_line = sstr.str();
+
+      REQUIRE(output_line.substr(output_line.length() - test_string.length()) == test_string);
     }
-}
+  }
+
+  WHEN("a loglevel is set")
+  {
+    std::string test_string = "strident hippos";
+    std::ostringstream sstr;
+    DebugRedirector redirector(sstr);
+
+    sstr << LogLevel::WARNING << test_string;
+    THEN("an appropriate level is indicated on the output.")
+    {
+      REQUIRE(sstr.str() == "-W-"+test_string);
+    }
+  }
+
+  WHEN("a tag is added")
+  {
+    std::string test_string = "nordic pine";
+    std::ostringstream sstr;
+    DebugRedirector redirector(sstr);
+
+    sstr << logTag("spiff") << test_string;
+    THEN("an appropriate tag is set on the output.")
+    {
+      REQUIRE(sstr.str() == "-I-spiff-"+test_string);
+    }
+  }
 }
