@@ -48,6 +48,7 @@ enum class LogLevel
 std::ostream&
 operator<<(std::ostream& ostr, LogLevel level);
 
+
 /**
  * Helper class for setting a tag on the log messages.
  */
@@ -70,6 +71,7 @@ private:
   std::string const& tag_;
 };
 
+
 /**
  * IO manipulator function to set the log tag for a line.
  */
@@ -80,21 +82,52 @@ log_tag(std::string const& tag)
 std::ostream&
 operator<<(std::ostream& ostr, LogTagSetter const lts);
 
+/**
+ * Helper class for the Show Time setting/
+ */
+class ShowTimeSetter
+{
+public:
+  bool
+  show_time() const
+  { return show_time_; }
+
+private:
+  ShowTimeSetter(bool show_time)
+  : show_time_(show_time)
+  { }
+
+  friend ShowTimeSetter const
+  show_time(bool show_time);
+
+private:
+  bool show_time_;
+};
+
+/**
+ * IO manipulator function to set the show-time flag for a debug stream.
+ */
+inline ShowTimeSetter const
+show_time(bool show_time)
+{ return ShowTimeSetter(show_time); }
+
+std::ostream&
+operator<<(std::ostream& ostr, ShowTimeSetter const sts);
+
 
 /**
  * An adaptor to turn any stream into a special stream that formats log
  * messages.
  */
-template<typename Char, typename Traits = std::char_traits<Char> >
 class DebugStreambuf
-: public std::basic_streambuf<Char, Traits>
+: public std::streambuf
 {
 public:
-  using traits_type = typename std::basic_streambuf<Char, Traits>::traits_type;
-  using int_type = typename std::basic_streambuf<Char, Traits>::int_type;
+  using traits_type = std::streambuf::traits_type;
+  using int_type = std::streambuf::int_type;
 
 public:
-  DebugStreambuf(std::basic_streambuf<Char, Traits>* real_buf);
+  DebugStreambuf(std::streambuf* real_buf);
 
   void
   set_level(LogLevel level)
@@ -104,6 +137,10 @@ public:
   set_tag(std::string const& tag)
   { tag_ = tag; }
 
+  void
+  set_show_time(bool setting = true)
+  { show_time_ = setting; }
+
 protected:
   int_type overflow(int_type c = traits_type::eof());
 
@@ -112,59 +149,13 @@ private:
   DebugStreambuf& operator=(const DebugStreambuf&) = delete;
 
 
-  std::basic_streambuf<Char, Traits>* real_buf_;
-  bool                                bol_;
-  LogLevel                            level_;
-  std::string                         tag_;
+  std::streambuf*  real_buf_;
+  bool             bol_;
+  LogLevel         level_;
+  std::string      tag_;
+  bool             show_time_;
 };
 
-
-template<typename C, typename T>
-DebugStreambuf<C,T>::
-DebugStreambuf(std::basic_streambuf<C,T>* real_buf)
-: real_buf_(real_buf)
-, bol_(true)
-, level_(LogLevel::INFO)
-{ }
-
-
-template<typename C, typename T>
-typename DebugStreambuf<C,T>::int_type DebugStreambuf<C,T>::
-overflow(DebugStreambuf<C,T>::int_type c)
-{
-  int_type retval = traits_type::not_eof(c);
-  if (!traits_type::eq_int_type(c, traits_type::eof()))
-  {
-    if (bol_)
-    {
-      // Prepend a dummy character for now.
-      real_buf_->sputc('-');
-      real_buf_->sputc(static_cast<C>(level_));
-      real_buf_->sputc('-');
-      bol_ = false;
-      level_ = LogLevel::INFO;
-
-      if (!tag_.empty())
-      {
-        real_buf_->sputn(tag_.c_str(), tag_.length());
-        real_buf_->sputc(' ');
-        tag_.clear();
-      }
-    }
-
-    // Send the real character out.
-    retval =  real_buf_->sputc(c);
-
-    // If the end-of-line was seen, reset the beginning-of-line indicator and
-    // the default log level.
-    if (traits_type::eq_int_type(c, traits_type::to_int_type('\n')))
-    {
-      bol_ = true;
-    }
-  }
-
-  return retval;
-}
 
 /**
  * An RAII object to redirect/restore the original stream buffer of an
@@ -221,13 +212,13 @@ class DebugRedirector
 public:
   DebugRedirector(std::ostream& stream)
   : StreambufRedirector(stream)
-  , debug_streambuf_(new DebugStreambuf<char>(wrapped_ostream_.rdbuf()))
+  , debug_streambuf_(new DebugStreambuf(wrapped_ostream_.rdbuf()))
   { 
     wrapped_ostream_.rdbuf(debug_streambuf_.get());
   }
 
 private:
-  std::unique_ptr<DebugStreambuf<char>> debug_streambuf_;
+  std::unique_ptr<DebugStreambuf> debug_streambuf_;
 };
 
 

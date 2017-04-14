@@ -32,6 +32,7 @@ int
 main(int argc, char* argv[])
 {
   DebugRedirector logger(cout);
+  cout << show_time(true);
 
   StringList opts { argv+1, argv+argc };
   Config config;
