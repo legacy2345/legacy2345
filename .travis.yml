@@ -1,6 +1,6 @@
-sudo: required
+sudo: false
 dist: trusty
-language: cpp
+language: generic
 
 branches:
   only:
@@ -21,13 +21,11 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.7
+            - llvm-toolchain-trusty-4.0
           packages:
-            - clang-3.7
-      env: COMPILER=clang++-3.7
+            - clang-4.0
+      env: COMPILER=clang++-4.0
 
-before_install:
-  - sudo apt-get update -qq
 before_script:
   - mkdir build
   - cd build
