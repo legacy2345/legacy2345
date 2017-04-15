@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <iostream>
 #include "legacy/core/config.h"
+#include "legacy/core/logger.h"
 #include "legacy/core/posix_filesystem.h"
 
 using namespace Legacy::Core;
@@ -30,6 +31,9 @@ using namespace std;
 int
 main(int argc, char* argv[])
 {
+  DebugRedirector logger(cout);
+  cout << show_time(true);
+
   StringList opts { argv+1, argv+argc };
   Config config;
   PosixFileSystem filesystem;
@@ -38,13 +42,13 @@ main(int argc, char* argv[])
   StringList args(config.get("cli-args", StringList()));
   if (args.size() == 0)
   {
-    cout << "usgae: " << argv[0] << " [datafile_name]\n";
+    cerr << "usgae: " << argv[0] << " [datafile_name]\n";
   }
   else
   {
     for_each(begin(args), end(args),
               [&](string const& filename) {
-                cout << "\"" << filename << "\": ";
+                cout << log_tag("find_file") << "\"" << filename << "\": ";
                 auto istr = config.open_data_file(filesystem, filename);
                 if (istr && istr->good())
                 {
