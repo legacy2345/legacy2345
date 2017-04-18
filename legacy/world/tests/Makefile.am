@@ -1,8 +1,8 @@
 #
-# @file legacy/tests/world/Makefile.am
+# @file legacy/world/tests/Makefile.am
 # @brief automake recipe for Legacy world submodule tests
 #
-# Copyright 2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
+# Copyright 20162-17 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ test_world_SOURCES = \
 
 test_world_CPPFLAGS = \
   -I$(top_srcdir) \
-  -I$(top_srcdir)/legacy/tests/3rd_party
+  -I$(top_srcdir)/legacy/3rd_party
 
 test_world_LDADD = \
   ${top_builddir}/legacy/world/liblegacyworld.la

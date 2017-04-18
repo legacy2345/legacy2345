@@ -1,6 +1,6 @@
 /**
- * @file legacy/tests/world/map.h
- * @brief Tests for the Legacy world map unit.
+ * @file legacy/core/tests/test_random.cpp
+ * @brief Tests for the Legacy core random unit.
  */
 
 /*

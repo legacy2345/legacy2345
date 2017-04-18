@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+SUBDIRS = . tests
+
 noinst_LTLIBRARIES = liblegacycharacter.la
 
 liblegacycharacter_la_SOURCES = \

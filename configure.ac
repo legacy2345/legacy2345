@@ -2,7 +2,7 @@
 # @file configure.ac
 # @brief autoconf recipe for the Legacy project
 #
-# Copyright 2011-2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
+# Copyright 2011-2017 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -81,13 +81,14 @@ AC_SUBST(AM_CXXFLAGS, "-Wall -Wextra -pedantic $AM_CXXFLAGS")
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([legacy/Makefile])
 AC_CONFIG_FILES([legacy/core/Makefile])
+AC_CONFIG_FILES([legacy/core/tests/Makefile])
 AC_CONFIG_FILES([legacy/character/Makefile])
+AC_CONFIG_FILES([legacy/character/tests/Makefile])
 AC_CONFIG_FILES([legacy/world/Makefile])
+AC_CONFIG_FILES([legacy/world/tests/Makefile])
 AC_CONFIG_FILES([legacy/tests/Makefile])
-AC_CONFIG_FILES([legacy/tests/core/Makefile])
-AC_CONFIG_FILES([legacy/tests/character/Makefile])
-AC_CONFIG_FILES([legacy/tests/world/Makefile])
 AC_CONFIG_FILES([tools/Makefile])
+AC_CONFIG_FILES([tools/core/Makefile])
 AC_CONFIG_FILES([tools/character/Makefile])
 AC_CONFIG_FILES([tools/world/Makefile])
 AC_OUTPUT

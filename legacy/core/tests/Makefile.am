@@ -1,8 +1,8 @@
 #
-# @file legacy/tests/core/Makefile.am
+# @file legacy/core/tests/Makefile.am
 # @brief automake recipe for Legacy core submodule tests
 #
-# Copyright 2016 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
+# Copyright 2016-107 Stephen M. Webb  <stephen.webb@bregmasoft.ca>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,12 +21,17 @@
 check_PROGRAMS = test_core
 
 test_core_SOURCES = \
+  mock_filesystem.h      mock_filesystem.cpp \
   test_core.cpp \
+  test_config.cpp \
+  test_config_paths.cpp \
+  test_filesystem.cpp \
+  test_logger.cpp \
   test_random.cpp
 
 test_core_CPPFLAGS = \
   -I$(top_srcdir) \
-  -I$(top_srcdir)/legacy/tests/3rd_party
+  -I$(top_srcdir)/legacy/3rd_party
 
 test_core_LDADD = \
   ${top_builddir}/legacy/core/liblegacycore.la
