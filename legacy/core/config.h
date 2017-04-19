@@ -63,7 +63,10 @@ public:
   init(StringList const& argv, FileSystem const& fs);
 
   template<typename T> T
-  get(std::string const& tag);
+  get(std::string const& tag) const;
+
+  template<typename T> T
+  get(std::string const& tag, T default_value) const;
 
   template<typename T> T
   get(std::string const& tag, T default_value);

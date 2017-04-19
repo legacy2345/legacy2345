@@ -4,7 +4,7 @@
  */
 
 /*
- * Copyright 2016-2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
+ * Copyright 2016,2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "catch.hpp"
-#include "legacy/character/nameconfig.h"
 #include "legacy/character/namegenerator.h"
 #include <sstream>
 #include <stdexcept>
@@ -28,23 +27,16 @@
 
 SCENARIO("The name generator factory handles invalid input.")
 {
-  GIVEN("A fake name config that asks for an invalid generator type")
+  GIVEN("A fake config")
   {
-    class FakeNameConfig
-    : public Legacy::Character::NameConfig
-    {
-    public:
-      std::string
-      generator_type() const override
-      { return "garbage"; }
-
-    } fake_name_config;
+    Legacy::Core::Config fake_config;
 
     WHEN("the name generator factory is asked for a name generator")
     {
+      fake_config.set<std::string>("name-generator", "invalid");
       THEN("it throws an exception.")
       {
-        CHECK_THROWS_AS(auto junk = Legacy::Character::get_name_generator(fake_name_config,
+        CHECK_THROWS_AS(auto junk = Legacy::Character::get_name_generator(fake_config,
                                                                           Legacy::Character::NameGenerator::Part::surname),
                         std::out_of_range);
       }

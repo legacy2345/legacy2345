@@ -3,7 +3,7 @@
  * @brief part of the Legacy character name submodule.
  */
 /*
- * Copyright 2015-2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
+ * Copyright 2015,2016,2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #define LEGACY_CHARACTER_NAMEGENERATOR_H
 
 #include "legacy/character/sexuality.h"
+#include "legacy/core/config.h"
 #include "legacy/core/random.h"
 #include <memory>
 #include <string>
@@ -31,9 +32,6 @@ namespace Legacy
 {
 namespace Character
 {
-
-class NameConfig;
-
 
 /**
  * Abstract base class for various kinds of character name generators.
@@ -55,7 +53,7 @@ public:
 };
 
 NameGenerator::OwningPtr
-get_name_generator(NameConfig const&   config,
+get_name_generator(Core::Config const& config,
                    NameGenerator::Part part);
 
 

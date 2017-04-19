@@ -22,9 +22,9 @@
 #include <cstdlib>
 #include <getopt.h>
 #include <iostream>
-#include "legacy/character/nameconfig.h"
 #include "legacy/character/namegenerator.h"
 #include "legacy/character/sexuality.h"
+#include "legacy/core/config.h"
 #include "legacy/core/random.h"
 #include <stdexcept>
 
@@ -35,7 +35,7 @@ using Legacy::Character::Sexuality;
 
 
 void
-test_character_namegen(Legacy::Character::NameConfig const& config)
+test_character_namegen(Legacy::Core::Config const& config)
 {
   auto given_name_generator = get_name_generator(config, NameGenerator::Part::forename);
   auto familial_name_generator = get_name_generator(config, NameGenerator::Part::surname);
@@ -59,6 +59,7 @@ int
 main(int argc, char* argv[])
 {
   std::string savefile_name;
+  Legacy::Core::Config config;
 
   static const option options[] = {
     { "help",       no_argument,       0,    'h' },
@@ -88,16 +89,7 @@ main(int argc, char* argv[])
 
   try
   {
-    class FakeNameConfig
-    : public Legacy::Character::NameConfig
-    {
-    public:
-      std::string
-      generator_type() const override
-      { return "static"; }
-
-    } fake_name_config;
-    test_character_namegen(fake_name_config);
+    test_character_namegen(config);
   }
   catch (std::exception const& ex)
   {

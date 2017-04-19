@@ -23,14 +23,14 @@
 #include <getopt.h>
 #include <iostream>
 #include "legacy/character/sexuality.h"
-#include "legacy/character/sexualityconfig.h"
+#include "legacy/core/config.h"
 #include "legacy/core/random.h"
 #include <stdexcept>
 
 
 static void
-test_character_sexuality(Legacy::Character::SexualityConfig const& config,
-                         Legacy::Core::RandomNumberGenerator       rng)
+test_character_sexuality(Legacy::Core::Config const&         config,
+                         Legacy::Core::RandomNumberGenerator rng)
 {
   auto sexuality = Legacy::Character::Sexuality::generate(config, rng);
   std::cout << sexuality << "\n";
@@ -49,6 +49,8 @@ print_help(char const* argv0)
 int
 main(int argc, char* argv[])
 {
+  Legacy::Core::Config config;
+
   static const option options[] = {
     { "help",       no_argument,       0,    'h' },
     { NULL,         no_argument,       NULL,  0  }
@@ -77,7 +79,6 @@ main(int argc, char* argv[])
 
   try
   {
-    Legacy::Character::SexualityConfig config;
     Legacy::Core::RandomNumberGenerator rng;
     test_character_sexuality(config, rng);
   }

@@ -3,7 +3,7 @@
  * @brief Implementation of the Legacy random number generator module.
  */
 /*
- * Copyright 2015 Stephen M. Webb <stephen.webb@bregmasoft.ca>
+ * Copyright 2015,2016,2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ gender() const
 
 
 Legacy::Character::Sexuality Legacy::Character::Sexuality::
-generate(Legacy::Character::SexualityConfig const&,
+generate(Legacy::Core::Config const&,
          Legacy::Core::RandomNumberGenerator& rng)
 {
   std::bernoulli_distribution sex_chooser(0.49);

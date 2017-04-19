@@ -93,9 +93,21 @@ namespace
 
 
 template<> int Config::
-get(std::string const& tag)
+get(std::string const& tag) const
 {
   return int_values_.at(tag);
+}
+
+
+template<> int Config::
+get(std::string const& tag, int default_value) const
+{
+  auto it = int_values_.find(tag);
+  if (it == std::end(int_values_))
+  {
+    return default_value;
+  }
+  return it->second;
 }
 
 
@@ -127,9 +139,21 @@ set(std::string const& tag, int value)
 
 
 template<> double Config::
-get(std::string const& tag)
+get(std::string const& tag) const
 {
   return double_values_.at(tag);
+}
+
+
+template<> double Config::
+get(std::string const& tag, double default_value) const
+{
+  auto it = double_values_.find(tag);
+  if (it == std::end(double_values_))
+  {
+    return default_value;
+  }
+  return it->second;
 }
 
 
@@ -160,9 +184,21 @@ set(std::string const& tag, double value)
 
 
 template<> std::string Config::
-get(std::string const& tag)
+get(std::string const& tag) const
 {
   return string_values_.at(tag);
+}
+
+
+template<> std::string Config::
+get(std::string const& tag, std::string default_value) const
+{
+  auto it = string_values_.find(tag);
+  if (it == std::end(string_values_))
+  {
+    return default_value;
+  }
+  return it->second;
 }
 
 
@@ -194,9 +230,21 @@ set(std::string const& tag, std::string value)
 
 
 template<> std::vector<std::string> Config::
-get(std::string const& tag)
+get(std::string const& tag) const
 {
   return stringlist_values_.at(tag);
+}
+
+
+template<> std::vector<std::string> Config::
+get(std::string const& tag, StringList default_value) const
+{
+  auto it = stringlist_values_.find(tag);
+  if (it == std::end(stringlist_values_))
+  {
+    return default_value;
+  }
+  return it->second;
 }
 
 

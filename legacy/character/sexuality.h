@@ -3,7 +3,7 @@
  * @brief Public interface of the Legacy character sexuality submodule.
  */
 /*
- * Copyright 2015-2016 Stephen M. Webb <stephen.webb@bregmasoft.ca>
+ * Copyright 2015,2016,2017 Stephen M. Webb <stephen.webb@bregmasoft.ca>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,14 +29,12 @@ namespace Legacy
 
 namespace Core
 {
+  class Config;
   class RandomNumberGenerator;
 }
 
 namespace Character
 {
-
-class SexualityConfig;
-
 
 /**
  * The embodiment of sexual characteristics for an individual.
@@ -93,7 +91,7 @@ public:
    * Randomly generates the sexual characteristics.
    */
   static Sexuality
-  generate(SexualityConfig const& config, Core::RandomNumberGenerator& rng);
+  generate(Core::Config const& config, Core::RandomNumberGenerator& rng);
 
   friend std::istream&
   operator>>(std::istream& istr, Sexuality& sex);
