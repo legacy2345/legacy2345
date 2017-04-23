@@ -126,6 +126,7 @@ ActionResult
 version(std::string, std::vector<std::string>, Config&)
 {
   // @TODO: maybe later
+  std::cerr << "version message\n";
   return ActionResult::INVALID_ARG;
 }
 
@@ -188,6 +189,34 @@ match_option(std::string const& option, OptionSet const& option_set)
   return option_set.size();
 }
 
+
+/**
+ * Looks for the next Option in the set that is a positional parameter.
+ */
+OptionSet::size_type
+match_positional_argument(int positional_arg_count, OptionSet const& option_set)
+{
+  int ordinal = 0;
+  OptionSet::size_type optind = 0;
+  while (optind < option_set.size())
+  {
+    auto const& option = option_set[optind];
+    if (!arg_is_option(option.name))
+    {
+      if (option.num_args == '*' || option.num_args == '+')
+        return optind;
+      if (positional_arg_count < ordinal + option.num_args)
+      {
+        return optind;
+      }
+      ordinal += option.num_args;
+    }
+    optind++;
+  }
+  return option_set.size();
+}
+
+
 std::string
 get_config_key_from_option(Option const& option)
 {
@@ -202,6 +231,12 @@ get_config_key_from_option(Option const& option)
   return option.name;
 }
 
+void
+print_help(OptionSet const& options_set)
+{
+  std::cerr << "help message\n";
+}
+
 } // anonymous namespace
 
 
@@ -209,6 +244,25 @@ ArgParseResult
 arg_parse(OptionSet const& option_set, std::vector<std::string> args, Config& config)
 {
   ArgParseResult parse_result = ArgParseResult::SUCCESS;
+  int positional_arg_count = 0;
+
+  // calculate the number of mandatory positional arguments.
+  int num_mandatory_args = 0;
+  for (auto const& option: option_set)
+  {
+    if (!arg_is_option(option.name))
+    {
+      if (option.num_args == '+')
+      {
+        ++num_mandatory_args;
+        break;
+      }
+      else if (option.num_args != '*')
+      {
+        num_mandatory_args += option.num_args;
+      }
+    }
+  }
 
   std::vector<std::string>::size_type arg_index = 0;
   if (args.size() < 1)
@@ -226,6 +280,7 @@ arg_parse(OptionSet const& option_set, std::vector<std::string> args, Config& co
     }
     else if (arg == "--help" || arg == "-h")
     {
+      print_help(option_set);
       return ArgParseResult::SUCCESS_AND_EXIT;
     }
 
@@ -256,10 +311,29 @@ arg_parse(OptionSet const& option_set, std::vector<std::string> args, Config& co
     }
     else
     {
-std::clog << "==smw> arg is not an option\n";
-      // TBD
+      auto optind = match_positional_argument(positional_arg_count, option_set);
+      if (optind < option_set.size())
+      {
+        ++positional_arg_count;
+        auto const& option = option_set[optind];
+        auto result = option.action(get_config_key_from_option(option), std::vector<std::string>{arg}, config);
+        if (result != ActionResult::SUCCESS)
+        {
+          parse_result = ArgParseResult::INVALID_OPTION;
+        }
+      }
+      else
+      {
+        parse_result = ArgParseResult::INVALID_OPTION;
+      }
     }
     ++arg_index;
+  }
+
+  if (positional_arg_count < num_mandatory_args)
+  {
+    parse_result = ArgParseResult::INVALID_OPTION;
+    print_help(option_set);
   }
 
   return parse_result;
