@@ -23,6 +23,7 @@ SUBDIRS = . tests
 noinst_LTLIBRARIES = liblegacycore.la
 
 liblegacycore_la_SOURCES = \
+  argparse.h          argparse.cpp \
   config.h            config.cpp \
   config_file.h       config_file.cpp \
   config_paths.h      config_paths.cpp \
