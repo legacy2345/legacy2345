@@ -34,30 +34,33 @@ main(int argc, char* argv[])
   DebugRedirector logger(cout);
   cout << show_time(true);
 
-  StringList opts { argv+1, argv+argc };
+  StringList opts { argv, argv+argc };
   Config config;
-  PosixFileSystem filesystem;
+  CLI::OptionSet  option_set{
+    { "cli-args", 0, '+', CLI::append, "", "datafile-name..." },
+  };
 
-  config.init(opts, filesystem);
+  PosixFileSystem filesystem;
+  auto config_init_result = config.init(option_set, opts, filesystem);
+  if (config_init_result != CLI::ArgParseResult::SUCCESS)
+  {
+    return static_cast<int>(config_init_result);
+  }
+
   StringList args(config.get("cli-args", StringList()));
-  if (args.size() == 0)
-  {
-    cerr << "usgae: " << argv[0] << " [datafile_name]\n";
-  }
-  else
-  {
-    for_each(begin(args), end(args),
-              [&](string const& filename) {
-                cout << log_tag("find_file") << "\"" << filename << "\": ";
-                auto istr = config.open_data_file(filesystem, filename);
-                if (istr && istr->good())
-                {
-                  cout << "OK\n";
-                }
-                else
-                {
-                  cout << "(no)\n";
-                }
-              });
-  }
+  assert(args.size() > 0);
+
+  for_each(begin(args), end(args), [&](string const& filename)
+           {
+             cout << log_tag("find_file") << "\"" << filename << "\": ";
+             auto istr = config.open_data_file(filesystem, filename);
+             if (istr && istr->good())
+             {
+               cout << "OK\n";
+             }
+             else
+             {
+               cout << "(no)\n";
+             }
+           });
 }

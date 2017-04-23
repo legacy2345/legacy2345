@@ -240,10 +240,10 @@ SCENARIO("Finding a data file.")
 {
   GIVEN("an empty set of command-line arguments")
   {
-    StringList argv;
+    StringList argv{ "test_config" };
     Legacy::Core::Config config;
     Legacy::Core::Tests::MockFileSystem mock_filesystem;
-    config.init(argv, mock_filesystem);
+    config.init(Legacy::Core::CLI::OptionSet(), argv, mock_filesystem);
 
     WHEN("a request is made to open a non-existent file")
     {
