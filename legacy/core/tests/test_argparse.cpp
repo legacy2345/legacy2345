@@ -284,3 +284,46 @@ SCENARIO("two positional arguments are expected")
     }
   }
 }
+
+SCENARIO("positional arguments with wildcard count is expected")
+{
+  CLI::OptionSet option_set = {
+    { "positional-arg",  0, '+', CLI::append, "", "a positional argument" },
+  };
+  Config config;
+
+  WHEN("two values are passed")
+  {
+    StringList args = { "prog", "value1", "value2" };
+    THEN("it is properly stored in the Config object and success is returned.")
+    {
+      auto result = CLI::arg_parse(option_set, args, config);
+      StringList expected_results{ "value1", "value2" };
+      REQUIRE(config.get<StringList>("positional-arg") == expected_results);
+      REQUIRE(result == CLI::ArgParseResult::SUCCESS);
+    }
+  }
+
+  WHEN("no value is passed")
+  {
+    StringList args = { "prog" };
+    THEN("failure is indicated.")
+    {
+      auto result = CLI::arg_parse(option_set, args, config);
+      REQUIRE(result == CLI::ArgParseResult::INVALID_OPTION);
+    }
+  }
+
+  WHEN("only one value is passed")
+  {
+    StringList args = { "prog", "rock" };
+    THEN("it is properly stored in the Config object and success is returned.")
+    {
+      auto result = CLI::arg_parse(option_set, args, config);
+      StringList expected_results{ "rock" };
+      REQUIRE(config.get<StringList>("positional-arg") == expected_results);
+      REQUIRE(result == CLI::ArgParseResult::SUCCESS);
+    }
+  }
+}
+
