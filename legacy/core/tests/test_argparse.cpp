@@ -292,18 +292,6 @@ SCENARIO("positional arguments with wildcard count is expected")
   };
   Config config;
 
-  WHEN("two values are passed")
-  {
-    StringList args = { "prog", "value1", "value2" };
-    THEN("it is properly stored in the Config object and success is returned.")
-    {
-      auto result = CLI::arg_parse(option_set, args, config);
-      StringList expected_results{ "value1", "value2" };
-      REQUIRE(config.get<StringList>("positional-arg") == expected_results);
-      REQUIRE(result == CLI::ArgParseResult::SUCCESS);
-    }
-  }
-
   WHEN("no value is passed")
   {
     StringList args = { "prog" };
@@ -321,6 +309,65 @@ SCENARIO("positional arguments with wildcard count is expected")
     {
       auto result = CLI::arg_parse(option_set, args, config);
       StringList expected_results{ "rock" };
+      REQUIRE(config.get<StringList>("positional-arg") == expected_results);
+      REQUIRE(result == CLI::ArgParseResult::SUCCESS);
+    }
+  }
+
+  WHEN("two values are passed")
+  {
+    StringList args = { "prog", "value1", "value2" };
+    THEN("it is properly stored in the Config object and success is returned.")
+    {
+      auto result = CLI::arg_parse(option_set, args, config);
+      StringList expected_results{ "value1", "value2" };
+      REQUIRE(config.get<StringList>("positional-arg") == expected_results);
+      REQUIRE(result == CLI::ArgParseResult::SUCCESS);
+    }
+  }
+
+}
+
+SCENARIO("mixed short, long, and positional arguments")
+{
+  CLI::OptionSet option_set = {
+    { "--string",       's', 1,  CLI::store_string, "", "a string option" },
+    { "positional-arg",  0, '+', CLI::append, "", "a positional argument" },
+  };
+  Config config;
+
+  WHEN("option arg is passed")
+  {
+    StringList args = { "prog", "--string", "value", "arg" };
+    THEN("they are properly stored in the Config object and success is returned.")
+    {
+      auto result = CLI::arg_parse(option_set, args, config);
+      REQUIRE(config.get<std::string>("string") == "value");
+      REQUIRE(config.get<StringList>("positional-arg") == StringList{"arg"});
+      REQUIRE(result == CLI::ArgParseResult::SUCCESS);
+    }
+  }
+
+  WHEN("arg option is passed")
+  {
+    StringList args = { "prog", "arg", "--string", "value" };
+    THEN("they are properly stored in the Config object and success is returned.")
+    {
+      auto result = CLI::arg_parse(option_set, args, config);
+      REQUIRE(config.get<std::string>("string") == "value");
+      REQUIRE(config.get<StringList>("positional-arg") == StringList{"arg"});
+      REQUIRE(result == CLI::ArgParseResult::SUCCESS);
+    }
+  }
+
+  WHEN("arg option arg is passed")
+  {
+    StringList args = { "prog", "arg1", "--string", "value", "arg2" };
+    THEN("they are properly stored in the Config object and success is returned.")
+    {
+      auto result = CLI::arg_parse(option_set, args, config);
+      REQUIRE(config.get<std::string>("string") == "value");
+      StringList expected_results{ "arg1", "arg2" };
       REQUIRE(config.get<StringList>("positional-arg") == expected_results);
       REQUIRE(result == CLI::ArgParseResult::SUCCESS);
     }
