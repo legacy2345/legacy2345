@@ -227,30 +227,12 @@ set(std::string const& tag, StringList value)
 }
 
 
-void Config::
-init(StringList const& args, FileSystem const& fs)
+CLI::ArgParseResult Config::
+init(CLI::OptionSet const& option_set, StringList const& args, FileSystem const& fs)
 {
-  std::string config_file_name;
-  StringList  non_options;
-
-  for (auto it = args.begin(); it != args.end(); ++it)
-  {
-    if (*it == "--config" || *it == "-f")
-    {
-      auto opt = *it++;
-      if (it == args.end())
-        throw std::runtime_error("missing argument for " + opt);
-      config_file_name = *it;
-    }
-    else if ((*it)[0] == '-')
-    {
-      std::cerr << "unknown option '"<< *it << "'\n";
-    }
-    else
-    {
-      non_options.push_back(*it);
-    }
-  }
+  auto arg_parse_result = CLI::arg_parse(option_set, args, *this);
+  if (arg_parse_result != CLI::ArgParseResult::SUCCESS)
+    return arg_parse_result;
 
   config_paths_ = generate_config_paths();
   std::for_each(config_paths_.crbegin(), config_paths_.crend(),
@@ -265,7 +247,7 @@ init(StringList const& args, FileSystem const& fs)
   );
 
   data_paths_ = generate_data_paths();
-  set<StringList>("cli-args", non_options);
+  return arg_parse_result;
 }
 
 
