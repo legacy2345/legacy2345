@@ -21,6 +21,7 @@
 #ifndef LEGACY_CORE_CONFIG_H
 #define LEGACY_CORE_CONFIG_H
 
+#include "legacy/core/argparse.h"
 #include "legacy/core/filesystem.h"
 #include <map>
 #include <string>
@@ -59,8 +60,8 @@ public:
    * on the command line and set in config files, for which the loading order
    * can be affected by the command-line arguments.
    */
-  void
-  init(StringList const& argv, FileSystem const& fs);
+  CLI::ArgParseResult
+  init(CLI::OptionSet const& option_set, StringList const& argv, FileSystem const& fs);
 
   template<typename T> T
   get(std::string const& tag) const;
