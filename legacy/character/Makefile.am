@@ -23,11 +23,12 @@ SUBDIRS = . tests
 noinst_LTLIBRARIES = liblegacycharacter.la
 
 liblegacycharacter_la_SOURCES = \
-  character.h               character.cpp \
-  characterbuilder.h        characterbuilder.cpp \
-  basiccharacterbuilder.h   basiccharacterbuilder.cpp \
-  namegenerator.h           namegenerator.cpp \
-  sexuality.h               sexuality.cpp
+  character.h                 character.cpp \
+  characterbuilder.h          characterbuilder.cpp \
+  basiccharacterbuilder.h     basiccharacterbuilder.cpp \
+  namegenerator.h             namegenerator.cpp \
+  sexuality.h                 sexuality.cpp \
+  statisticalnamegenerator.h  statisticalnamegenerator.cpp
 
 liblegacycharacter_la_CPPFLAGS = \
   -I${top_srcdir} \

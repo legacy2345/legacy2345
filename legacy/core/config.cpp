@@ -25,6 +25,7 @@
 #include <iterator>
 #include "legacy/core/config_paths.h"
 #include "legacy/core/filesystem.h"
+#include "legacy/core/logger.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <utility>
@@ -318,11 +319,12 @@ init(StringList const& args, FileSystem const& fs)
 
 
 std::unique_ptr<std::istream> Config::
-open_data_file(FileSystem const& fs, std::string const& data_file_name)
+open_data_file(FileSystem const& fs, std::string const& data_file_name) const
 {
   auto it = std::find_if(std::begin(data_paths_), std::end(data_paths_),
                           [&fs, &data_file_name](Path const& path) {
                             auto file_info = fs.get_fileinfo(path / data_file_name);
+                            std::clog << LogLevel::DEBUG << "trying " << file_info->name() << "\n";
                             return file_info->exists() && file_info->is_readable();
                           });
   if (it == std::end(data_paths_))

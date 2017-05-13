@@ -84,7 +84,7 @@ public:
    * pointer.
    */
   std::unique_ptr<std::istream>
-  open_data_file(FileSystem const& fs, std::string const& data_file_name);
+  open_data_file(FileSystem const& fs, std::string const& data_file_name) const;
 
 private:
   std::map<std::string, int>         int_values_;
