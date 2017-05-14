@@ -21,7 +21,7 @@
  */
 #include "catch.hpp"
 #include "legacy/character/sexuality.h"
-#include "legacy/character/sexualityconfig.h"
+#include "legacy/core/config.h"
 #include "legacy/core/random.h"
 #include <sstream>
 
@@ -29,7 +29,7 @@
 SCENARIO("the sexuality generator generates a sexuality object without crashing")
 {
   Legacy::Core::RandomNumberGenerator rng;
-  Legacy::Character::SexualityConfig  config;
+  Legacy::Core::Config                config;
 
   GIVEN("a generated sexuality")
   {
@@ -48,7 +48,7 @@ SCENARIO("the sexuality generator generates a sexuality object without crashing"
 SCENARIO("sexuality objects marshall and unmarshall correctly")
 {
   Legacy::Core::RandomNumberGenerator rng;
-  Legacy::Character::SexualityConfig  config;
+  Legacy::Core::Config                config;
 
   GIVEN("a generated sexuality")
   {

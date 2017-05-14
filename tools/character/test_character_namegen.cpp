@@ -20,11 +20,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <cstdlib>
-#include <getopt.h>
 #include <iostream>
-#include "legacy/character/nameconfig.h"
 #include "legacy/character/namegenerator.h"
 #include "legacy/character/sexuality.h"
+#include "legacy/core/argparse.h"
+#include "legacy/core/config.h"
+#include "legacy/core/logger.h"
+#include "legacy/core/posix_filesystem.h"
 #include "legacy/core/random.h"
 #include <stdexcept>
 
@@ -32,76 +34,55 @@
 using Legacy::Character::get_name_generator;
 using Legacy::Character::NameGenerator;
 using Legacy::Character::Sexuality;
+using namespace Legacy::Core;
+
+
+static CLI::OptionSet option_set = {
+  {"--name-generator", 'g', 1, CLI::store_string, "", "string generator name"},
+  {"--count",     'n', 1, CLI::store_int,    "", "repetition count"},
+};
 
 
 void
-test_character_namegen(Legacy::Character::NameConfig const& config)
+test_character_namegen(Config const& config, RandomNumberGenerator& rng)
 {
   auto given_name_generator = get_name_generator(config, NameGenerator::Part::forename);
   auto familial_name_generator = get_name_generator(config, NameGenerator::Part::surname);
-  auto rng = Legacy::Core::RandomNumberGenerator();
-  std::cerr << given_name_generator->pick_name(Sexuality::Gender::masculine, rng)
+  std::cout << given_name_generator->pick_name(Sexuality::Gender::masculine, rng)
             << " " << familial_name_generator->pick_name(Sexuality::Gender::masculine, rng)
             << "\n";
-}
-
-
-static void
-print_help(char const* argv0)
-{
-  std::cerr << "Usage: " << argv0 << " [ options ]\n"
-            << "Options:\n"
-            << "  -h, --help                  Prints this message and exits\n";
 }
 
 
 int
 main(int argc, char* argv[])
 {
-  std::string savefile_name;
+  DebugRedirector redirected_cerr(std::cerr);
+  DebugRedirector redirected_clog(std::clog);
+  std::clog << show_time(true);
 
-  static const option options[] = {
-    { "help",       no_argument,       0,    'h' },
-    { NULL,         no_argument,       NULL,  0  }
-  };
-
-  while (1)
-  {
-    int option_index;
-    int c = getopt_long(argc, argv, "f:", options, &option_index);
-    if (c < 0)
-      break;
-
-    switch (c)
-    {
-      case 'h':
-        print_help(argv[0]);
-        std::exit(0);
-        break;
-
-      case '?':
-        print_help(argv[0]);
-        std::exit(1);
-        break;
-    }
-  }
+  Config config;
+  StringList args(argv, argv+argc);
 
   try
   {
-    class FakeNameConfig
-    : public Legacy::Character::NameConfig
+    PosixFileSystem fs;
+    auto result = config.init(option_set, args, fs);
+    if (result != CLI::ArgParseResult::SUCCESS)
     {
-    public:
-      std::string
-      generator_type() const override
-      { return "static"; }
+      return 1;
+    }
 
-    } fake_name_config;
-    test_character_namegen(fake_name_config);
+    auto rng = Legacy::Core::RandomNumberGenerator();
+    int rep_count = config.get("count", 5);
+    for (int i = 0; i < rep_count; ++i)
+    {
+      test_character_namegen(config, rng);
+    }
   }
   catch (std::exception const& ex)
   {
-    std::cerr << "exception caught: " << ex.what() << "\nexiting...\n";
+    std::cerr << LogLevel::FATAL << "exception caught: " << ex.what() << "\nexiting...\n";
     return -1;
   }
   return 0;

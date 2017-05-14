@@ -64,7 +64,10 @@ public:
   init(CLI::OptionSet const& option_set, StringList const& argv, FileSystem const& fs);
 
   template<typename T> T
-  get(std::string const& tag);
+  get(std::string const& tag) const;
+
+  template<typename T> T
+  get(std::string const& tag, T default_value) const;
 
   template<typename T> T
   get(std::string const& tag, T default_value);
@@ -82,7 +85,7 @@ public:
    * pointer.
    */
   std::unique_ptr<std::istream>
-  open_data_file(FileSystem const& fs, std::string const& data_file_name);
+  open_data_file(FileSystem const& fs, std::string const& data_file_name) const;
 
 private:
   std::map<std::string, int>         int_values_;

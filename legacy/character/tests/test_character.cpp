@@ -23,7 +23,7 @@
 #include "catch.hpp"
 #include "legacy/character/character.h"
 #include "legacy/character/characterbuilder.h"
-#include "legacy/character/sexualityconfig.h"
+#include "legacy/core/config.h"
 #include "legacy/core/random.h"
 
 
@@ -46,7 +46,8 @@ class FakeCharacterBuilder
   choose_sexuality() override
   {
     Legacy::Core::RandomNumberGenerator rng;
-    Legacy::Character::SexualityConfig config;
+    Legacy::Core::Config                config;
+
     return Sexuality::generate(config, rng);
   }
 

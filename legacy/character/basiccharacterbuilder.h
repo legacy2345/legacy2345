@@ -21,9 +21,9 @@
 #ifndef LEGACY_CHARACTER_BASICCHARACTERBUILDER_H_
 #define LEGACY_CHARACTER_BASICCHARACTERBUILDER_H_
 
-#include <legacy/core/random.h>
+#include "legacy/core/config.h"
+#include "legacy/core/random.h"
 #include "legacy/character/characterbuilder.h"
-#include "legacy/character/characterconfig.h"
 #include "legacy/character/namegenerator.h"
 #include "legacy/character/sexuality.h"
 
@@ -42,7 +42,7 @@ class BasicCharacterBuilder
 : public CharacterBuilder
 {
 public:
-  BasicCharacterBuilder(CharacterConfig const& config, Core::RandomNumberGenerator& rng);
+  BasicCharacterBuilder(Core::Config const& config, Core::RandomNumberGenerator& rng);
 
   ~BasicCharacterBuilder();
 
@@ -56,7 +56,7 @@ public:
   choose_sexuality() override;
 
 private:
-  CharacterConfig             config_;
+  Core::Config const&         config_;
   Core::RandomNumberGenerator rng_;
   NameGenerator::OwningPtr    givenname_generator_;
   NameGenerator::OwningPtr    surname_generator_;

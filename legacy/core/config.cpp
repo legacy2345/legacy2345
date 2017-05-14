@@ -25,6 +25,7 @@
 #include <iterator>
 #include "legacy/core/config_paths.h"
 #include "legacy/core/filesystem.h"
+#include "legacy/core/logger.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <utility>
@@ -72,7 +73,7 @@ namespace
     char* cwd = ::getcwd(NULL, 0);
     if (cwd)
     {
-      data_paths.push_back(Path(cwd));
+      data_paths.push_back(Path(cwd) / "data");
       ::free(cwd);
     }
 
@@ -93,9 +94,21 @@ namespace
 
 
 template<> int Config::
-get(std::string const& tag)
+get(std::string const& tag) const
 {
   return int_values_.at(tag);
+}
+
+
+template<> int Config::
+get(std::string const& tag, int default_value) const
+{
+  auto it = int_values_.find(tag);
+  if (it == std::end(int_values_))
+  {
+    return default_value;
+  }
+  return it->second;
 }
 
 
@@ -127,9 +140,21 @@ set(std::string const& tag, int value)
 
 
 template<> double Config::
-get(std::string const& tag)
+get(std::string const& tag) const
 {
   return double_values_.at(tag);
+}
+
+
+template<> double Config::
+get(std::string const& tag, double default_value) const
+{
+  auto it = double_values_.find(tag);
+  if (it == std::end(double_values_))
+  {
+    return default_value;
+  }
+  return it->second;
 }
 
 
@@ -160,9 +185,21 @@ set(std::string const& tag, double value)
 
 
 template<> std::string Config::
-get(std::string const& tag)
+get(std::string const& tag) const
 {
   return string_values_.at(tag);
+}
+
+
+template<> std::string Config::
+get(std::string const& tag, std::string default_value) const
+{
+  auto it = string_values_.find(tag);
+  if (it == std::end(string_values_))
+  {
+    return default_value;
+  }
+  return it->second;
 }
 
 
@@ -194,9 +231,21 @@ set(std::string const& tag, std::string value)
 
 
 template<> std::vector<std::string> Config::
-get(std::string const& tag)
+get(std::string const& tag) const
 {
   return stringlist_values_.at(tag);
+}
+
+
+template<> std::vector<std::string> Config::
+get(std::string const& tag, StringList default_value) const
+{
+  auto it = stringlist_values_.find(tag);
+  if (it == std::end(stringlist_values_))
+  {
+    return default_value;
+  }
+  return it->second;
 }
 
 
@@ -252,11 +301,12 @@ init(CLI::OptionSet const& option_set, StringList const& args, FileSystem const&
 
 
 std::unique_ptr<std::istream> Config::
-open_data_file(FileSystem const& fs, std::string const& data_file_name)
+open_data_file(FileSystem const& fs, std::string const& data_file_name) const
 {
   auto it = std::find_if(std::begin(data_paths_), std::end(data_paths_),
                           [&fs, &data_file_name](Path const& path) {
                             auto file_info = fs.get_fileinfo(path / data_file_name);
+                            std::clog << LogLevel::DEBUG << "trying " << (path / data_file_name).string() << "\n";
                             return file_info->exists() && file_info->is_readable();
                           });
   if (it == std::end(data_paths_))

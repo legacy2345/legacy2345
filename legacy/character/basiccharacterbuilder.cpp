@@ -22,7 +22,7 @@
 
 
 Legacy::Character::BasicCharacterBuilder::
-BasicCharacterBuilder(CharacterConfig const& config, Core::RandomNumberGenerator& rng)
+BasicCharacterBuilder(Core::Config const& config, Core::RandomNumberGenerator& rng)
 : config_(config)
 , rng_(rng)
 , givenname_generator_(get_name_generator(config_, NameGenerator::Part::forename))
