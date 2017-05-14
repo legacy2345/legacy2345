@@ -73,7 +73,7 @@ namespace
     char* cwd = ::getcwd(NULL, 0);
     if (cwd)
     {
-      data_paths.push_back(Path(cwd));
+      data_paths.push_back(Path(cwd) / "data");
       ::free(cwd);
     }
 
@@ -306,7 +306,7 @@ open_data_file(FileSystem const& fs, std::string const& data_file_name) const
   auto it = std::find_if(std::begin(data_paths_), std::end(data_paths_),
                           [&fs, &data_file_name](Path const& path) {
                             auto file_info = fs.get_fileinfo(path / data_file_name);
-                            std::clog << LogLevel::DEBUG << "trying " << file_info->name() << "\n";
+                            std::clog << LogLevel::DEBUG << "trying " << (path / data_file_name).string() << "\n";
                             return file_info->exists() && file_info->is_readable();
                           });
   if (it == std::end(data_paths_))
