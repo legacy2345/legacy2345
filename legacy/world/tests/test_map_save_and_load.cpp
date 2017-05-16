@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "catch.hpp"
+#include "catch/catch.hpp"
 #include "fake_mapbuilder.h"
 #include "legacy/world/map.h"
 #include "legacy/world/mapbuilderstream.h"
