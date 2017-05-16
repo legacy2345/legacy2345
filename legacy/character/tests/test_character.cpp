@@ -19,8 +19,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
+#define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
+#include "catch_reporter_tap.hpp"
 #include "legacy/character/character.h"
 #include "legacy/character/characterbuilder.h"
 #include "legacy/core/config.h"
@@ -72,3 +73,20 @@ SCENARIO("A basic instatiation of a charcter object.")
     }
   }
 }
+
+
+int
+main(int argc, char* argv[])
+{
+  Catch::Session session;
+
+  int return_code = session.applyCommandLine(argc, argv);
+  if (return_code != 0)
+    return return_code;
+
+  session.configData().reporterNames.push_back("tap");
+
+  int num_failed = session.run();
+  return num_failed < 0xff ? num_failed : 0xff;
+}
+

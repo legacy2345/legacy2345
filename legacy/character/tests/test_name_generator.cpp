@@ -36,8 +36,8 @@ SCENARIO("The name generator factory handles invalid input.")
       fake_config.set<std::string>("name-generator", "invalid");
       THEN("it throws an exception.")
       {
-        CHECK_THROWS_AS(auto junk = Legacy::Character::get_name_generator(fake_config,
-                                                                          Legacy::Character::NameGenerator::Part::surname),
+        CHECK_THROWS_AS(Legacy::Character::get_name_generator(fake_config,
+                                                              Legacy::Character::NameGenerator::Part::surname),
                         std::out_of_range);
       }
     }
