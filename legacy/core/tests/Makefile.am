@@ -32,7 +32,7 @@ test_core_SOURCES = \
 
 test_core_CPPFLAGS = \
   -I$(top_srcdir) \
-  -I$(top_srcdir)/legacy/3rd_party/catch
+  -I$(top_srcdir)/legacy/3rd_party
 
 test_core_LDADD = \
   ${top_builddir}/legacy/core/liblegacycore.la

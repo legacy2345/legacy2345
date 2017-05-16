@@ -27,7 +27,7 @@ test_character_SOURCES = \
 
 test_character_CPPFLAGS = \
   -I$(top_srcdir) \
-  -I$(top_srcdir)/legacy/3rd_party/catch
+  -I$(top_srcdir)/legacy/3rd_party
 
 test_character_LDADD = \
   ${top_builddir}/legacy/character/liblegacycharacter.la \

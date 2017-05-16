@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_RUNNER
-#include "catch.hpp"
-#include "catch_reporter_tap.hpp"
+#include "catch/catch.hpp"
+#include "catch/catch_reporter_tap.hpp"
 
 int
 main(int argc, char* argv[])

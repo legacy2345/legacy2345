@@ -20,8 +20,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #define CATCH_CONFIG_RUNNER
-#include "catch.hpp"
-#include "catch_reporter_tap.hpp"
+#include "catch/catch.hpp"
+#include "catch/catch_reporter_tap.hpp"
 #include "legacy/character/character.h"
 #include "legacy/character/characterbuilder.h"
 #include "legacy/core/config.h"
