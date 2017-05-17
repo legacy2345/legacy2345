@@ -145,9 +145,9 @@ SCENARIO("path dirname edge cases")
     Path path("");
     WHEN("the dirname is examined")
     {
-      THEN("it should be empty")
+      THEN("it should be dot")
       {
-        REQUIRE(path.dirname() == "");
+        REQUIRE(path.dirname() == ".");
       }
     }
   }
