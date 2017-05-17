@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "catch.hpp"
+#include "catch/catch.hpp"
 #include "legacy/character/namegenerator.h"
 #include <sstream>
 #include <stdexcept>
@@ -36,8 +36,8 @@ SCENARIO("The name generator factory handles invalid input.")
       fake_config.set<std::string>("name-generator", "invalid");
       THEN("it throws an exception.")
       {
-        CHECK_THROWS_AS(auto junk = Legacy::Character::get_name_generator(fake_config,
-                                                                          Legacy::Character::NameGenerator::Part::surname),
+        CHECK_THROWS_AS(Legacy::Character::get_name_generator(fake_config,
+                                                              Legacy::Character::NameGenerator::Part::surname),
                         std::out_of_range);
       }
     }

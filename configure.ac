@@ -30,8 +30,10 @@ AC_CONFIG_MACRO_DIRS([m4])
 AM_INIT_AUTOMAKE([1.11 foreign -Wall color-tests])
 AM_SILENT_RULES([yes])
 AC_CONFIG_HEADER([legacy_config.h])
+AC_REQUIRE_AUX_FILE([tap-driver.sh])
 
 # Checks for required tools
+AC_PROG_AWK
 AC_PROG_CXX
 AC_LANG([C++])
 AM_PROG_AR

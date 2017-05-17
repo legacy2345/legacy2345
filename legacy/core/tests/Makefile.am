@@ -37,4 +37,6 @@ test_core_CPPFLAGS = \
 test_core_LDADD = \
   ${top_builddir}/legacy/core/liblegacycore.la
 
+LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) $(top_srcdir)/config.aux/tap-driver.sh
+
 TESTS = $(check_PROGRAMS)

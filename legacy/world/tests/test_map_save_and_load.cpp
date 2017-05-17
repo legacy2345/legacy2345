@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "catch.hpp"
+#include "catch/catch.hpp"
 #include "fake_mapbuilder.h"
 #include "legacy/world/map.h"
 #include "legacy/world/mapbuilderstream.h"
@@ -61,7 +61,7 @@ SCENARIO("map streamloading failures")
     {
       THEN("An exception is thrown.")
       {
-        CHECK_THROWS_AS(Legacy::World::MapBuilderStream stream_builder(sstr), std::runtime_error);
+        CHECK_THROWS_AS(Legacy::World::MapBuilderStream(sstr), std::runtime_error);
       }
     }
   }

@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "catch.hpp"
+#include "catch/catch.hpp"
 #include "legacy/core/filesystem.h"
 
 using namespace Legacy::Core;
@@ -145,9 +145,9 @@ SCENARIO("path dirname edge cases")
     Path path("");
     WHEN("the dirname is examined")
     {
-      THEN("it should be empty")
+      THEN("it should be dot")
       {
-        REQUIRE(path.dirname() == "");
+        REQUIRE(path.dirname() == ".");
       }
     }
   }

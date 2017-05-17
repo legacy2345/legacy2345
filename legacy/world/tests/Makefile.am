@@ -36,4 +36,6 @@ test_world_CPPFLAGS = \
 test_world_LDADD = \
   ${top_builddir}/legacy/world/liblegacyworld.la
 
+LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) $(top_srcdir)/config.aux/tap-driver.sh
+
 TESTS = $(check_PROGRAMS)

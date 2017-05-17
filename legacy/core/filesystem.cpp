@@ -84,6 +84,9 @@ basename() const
 std::string Path::
 dirname() const
 {
+  if (path_.length() == 0)
+    return ".";
+
   auto s = path_.length() - 1;
   for (; s > 1; --s)
   {
